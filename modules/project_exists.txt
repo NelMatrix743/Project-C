@@ -1,0 +1,6 @@
+A Project with a similar name already exist!
+Do you wish to:
+       [1] Get an overview of the Project.
+	   [2] Create a new Project with a different name.
+       [3] Overwrite the existing Project but keep the name. 
+       [x] Exit Project-C.
