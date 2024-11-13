@@ -20,10 +20,18 @@ class ConfigurationDatabase():
     setup_date: dict[str, str] = Util.retrieve_datetime()
     project_c_version: str = "1.0.0"
     reservoir_path: str | None = None
+    user_name: str | None = None
+    nick_name: str | None = None
+    github_account_name: str | None = None
+    github_url: str | None = None
     CONFIG: dict[str, any] = {
         "Setup Date" : f"{setup_date['YEAR']}-{setup_date['MONTH']}-{setup_date['DAY']}_{setup_date['DAY_NUM']}-[{setup_date['TIME']}]",
         "Version" : project_c_version,
-        "Reservoir Path" : reservoir_path
+        "Reservoir Path" : reservoir_path,
+        "User Name" : user_name,
+        "Nick Name" : nick_name,
+        "GitHub Name" : github_account_name,
+        "GitHub URL" : github_url
     }
 
 
@@ -46,11 +54,19 @@ class ConfigurationDatabase():
 class TemplateDatabase():
 
     # Note: Static class. Must not be initialized
-    template_database_path: Path | None = None
+    SOURCE_CODE_HEADER: str = f"""
+################################################################################
+# Programmer.name = {ConfigurationDatabase.CONFIG["User Name"]}{(59 - len(ConfigurationDatabase.CONFIG["User Name"]))*' '}#
+# Programmer.nick_name = {ConfigurationDatabase.CONFIG["Nick Name"]}{(54 - len(ConfigurationDatabase.CONFIG["Nick Name"]))*' '}#
+# Programmer.GitHub.user_name = {ConfigurationDatabase.CONFIG["GitHub Name"]}{(47 - len(ConfigurationDatabase.CONFIG["GitHub Name"]))*' '}#
+# Programmer.GitHub.url = {ConfigurationDatabase.CONFIG["GitHub URL"]}{(53 - len(ConfigurationDatabase.CONFIG["GitHub URL"]))*' '}#
+################################################################################
+"""
 
-    def create_database() -> None:
-        TemplateDatabase.template_database_path = Path("../Databases/templates.db")
+    TEMPLATE: dict[str, str] = {
+        "HEADER" : SOURCE_CODE_HEADER,
 
+    }
 
 
 class ProjectDatabase():
@@ -64,7 +80,9 @@ class ProjectDatabase():
 
 
 if __name__ == "__main__":
-    Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
-    ConfigurationDatabase.create_database()
+    # Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
+    # ConfigurationDatabase.create_database()
+
+    print(TemplateDatabase.SOURCE_CODE_HEADER)
 
 # end of program
