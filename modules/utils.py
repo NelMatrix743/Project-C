@@ -1,7 +1,7 @@
 ###############################################################################
 # Programmer.name = Nelson Chidi                                              #
 # Programmer.nick_name = Nelmatrix                                            #
-# Programmer.GitHub.username = NelMatrix743                                   #
+# Programmer.GitHub.user_name = NelMatrix743                                  #
 # Programmer.GitHub.url = https://github.com/NelMatrix743                     #
 ###############################################################################
 
@@ -28,11 +28,14 @@ class Util():
         random_hex_str: str = ''.join([random.choice(VALID_HEX_ID_CHARACTERS) for ch in range(5)])
 
 
-    def retrieve_datetime():
-        date_list: list[str] = ["YEAR", "MONTH", "DAY", "TIME"]
-        date_str: str = datetime.now().strftime("%Y %B %A %X")
+    def retrieve_datetime() -> dict[str, str]:
+        date_list: list[str] = ["SHORT_FORM", "YEAR", "MONTH", "DAY", "DAY_NUM", "TIME"]
+        date_str: str = datetime.now().strftime(r"%D %Y %B %A %d %X")
         date_dict: dict[str, str] = dict(zip(date_list, date_str.split()))
         return date_dict
 
 
+
+if __name__ == "__main__":
+    print(Util.retrieve_datetime()["DAY_NUM"])
 # end of source code

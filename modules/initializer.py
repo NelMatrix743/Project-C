@@ -1,15 +1,15 @@
 ###############################################################################
 # Programmer.name = Nelson Chidi                                              #
 # Programmer.nick_name = Nelmatrix                                            #
-# Programmer.GitHub.username = NelMatrix743                                   #
+# Programmer.GitHub.user_name = NelMatrix743                                  #
 # Programmer.GitHub.url = https://github.com/NelMatrix743                     #
 ###############################################################################
-
 import os 
 import string 
 import random 
 import time 
 from display import *
+from pathlib import Path
 from datetime import datetime
 from rich.panel import Panel
 from rich.console import Console
@@ -25,7 +25,7 @@ class Initializer():
     def initialize_project_C():
         with Initializer.terminalController.status():
             time.sleep(5) # 5 seconds delay
-            #TODO: Check if the config.db file has been created and intitialized.
+            #TODO: Check if the Databases directory and the config.db file has been created and intitialized.
             #TODO: If yes, retrieve project-c initialisation state from it.
             #TODO: Throw an error message to the user to let them know that project-C has already been initialized
             #TODO: If not found, create config.db and complete the remaining setup process
