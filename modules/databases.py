@@ -20,10 +20,10 @@ class ConfigurationDatabase():
     setup_date: dict[str, str] = Util.retrieve_datetime()
     project_c_version: str = "1.0.0"
     reservoir_path: str | None = None
-    user_name: str | None = None
-    nick_name: str | None = None
-    github_account_name: str | None = None
-    github_url: str | None = None
+    user_name: str | None = "Newton"
+    nick_name: str | None = "NewGravity"
+    github_account_name: str | None = "Newvento"
+    github_url: str | None = "https://github.com/Newvento"
     CONFIG: dict[str, any] = {
         "Setup Date" : f"{setup_date['YEAR']}-{setup_date['MONTH']}-{setup_date['DAY']}_{setup_date['DAY_NUM']}-[{setup_date['TIME']}]",
         "Version" : project_c_version,
@@ -63,10 +63,21 @@ class TemplateDatabase():
 ################################################################################
 """
 
-    TEMPLATE: dict[str, str] = {
-        "HEADER" : SOURCE_CODE_HEADER,
+    # TEMPLATE: dict[str, str] = {
+    #     "HEADER" : _SOURCE_CODE_HEADER,
 
-    }
+    # }
+
+    def get_info_data(project: Project) -> str:
+        INFO_DATA: str = f"""
+PROJECT NAME: {project.raw_name}
+PROJECT ID: {project.p_uid}
+PROJECT RESERVOIR PATH: {project.full_path}
+CREATION DATE-TIME: {project.creation_datetime["SHORT_FORM"]} - [{project.creation_datetime["TIME"]}] 
+STATUS: {project.status}
+DESCRIPTION: {project.description}
+"""     
+        return INFO_DATA
 
 
 class ProjectDatabase():
@@ -83,6 +94,12 @@ if __name__ == "__main__":
     # Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
     # ConfigurationDatabase.create_database()
 
-    print(TemplateDatabase.SOURCE_CODE_HEADER)
+    #print(TemplateDatabase.TEMPLATE["HEADER"])
+    test_project: Project = Project(
+        "Pygame",
+        "Python library for building games in Python."
+    )
+
+    print(TemplateDatabase.get_info_data(test_project))
 
 # end of program
