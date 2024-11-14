@@ -20,12 +20,14 @@ class Util():
     # Note: Static class. Must not be initialized.
     def parse_name(raw_name: str) -> str:
         name_tokens: list[str] = raw_name.replace('-', ' ').replace('_', ' ').split(" ")
+        return name_tokens
 
 
     def generate_project_uid(project_name: str) -> str:
         """ Generate a unique ID of the format: prjt-XXXX-ABCDE"""
         prefix: str = "prjt"
         random_hex_str: str = ''.join([random.choice(VALID_HEX_ID_CHARACTERS) for ch in range(5)])
+        return random_hex_str
 
 
     def retrieve_datetime() -> dict[str, str]:
