@@ -22,8 +22,7 @@ class Project():
         self.creation_datetime: dict[str, str] = Util.retrieve_datetime()
         self.status: str | None = None
         self.full_path: str = None
-        self.venv_name: str | None = None
-
+        self.venv_prompt: str | None = None
 
 
     @property
