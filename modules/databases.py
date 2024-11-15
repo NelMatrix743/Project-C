@@ -84,7 +84,7 @@ DESCRIPTION: {project.description}
 
 
 
-class ProjectDatabaseNonExistentException():
+class ProjectDatabaseNonExistentException(Exception):
     """
     This exception is thrown by the methods (except create_database()) in ProjectDatabase() when the projects.db file is missing (deleted or not yet created).
     """
@@ -100,48 +100,79 @@ class ProjectDatabase():
         db_conn: sql.Connection = sql.connect(ProjectDatabase.project_database_path)
         db_cursor: sql.Cursor = db_conn.cursor()
         db_cursor.execute("""
-            CREATE TABLE project_data (
+            CREATE TABLE IF NOT EXISTS project_data (
                 id text NOT NULL PRIMARY KEY,
                 name text NOT NULL,
                 status text NOT NULL,
                 project_description text,
-                venv_prompt text,                    
-                creation_datetime text NOT NULL,
-                commence_datetime text,
-                end_datetime text,
-                last_access_datetime text 
+                venv_prompt text NOT NULL,
+                full_path text NOT NULL,
+                creation_datetime text NOT NULL
             );
               """)
+        db_conn.commit()
         db_conn.close()
 
 
     def insert_project_data(project: Project) -> None:
-        pass
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_cursor.commit()
 
 
-    def retrieve_project_data() -> None:
-        pass
+    def retrieve_project_data(project: Project) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
 
-    
-    def update_project_data() -> None:
-        pass
+            """)
+            db_cursor.commit()
+
+   
+    def update_project_data(project: Project) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_cursor.commit()
 
 
-    def delete_project_data() -> None:
-        pass
+    def delete_project_data(project: Project) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_cursor.commit()
 
 
 
 if __name__ == "__main__":
-    Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
-    # ConfigurationDatabase.create_database()
+    #Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
+    #ConfigurationDatabase.create_database()
     #print(TemplateDatabase.TEMPLATE["HEADER"])
     # test_project: Project = Project(
     #     "Pygame",
     #     "Python library for building games in Python."
     # )
     #print(TemplateDatabase.get_info_data(test_project))
-    ProjectDatabase.create_database()
-
+    #ProjectDatabase.create_database()
+    pass
 
 # end of program
