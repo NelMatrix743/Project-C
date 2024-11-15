@@ -20,10 +20,10 @@ class ConfigurationDatabase():
     setup_date: dict[str, str] = Util.retrieve_datetime()
     project_c_version: str = "1.0.0"
     reservoir_path: str | None = None
-    user_name: str | None = "Newton"
-    nick_name: str | None = "NewGravity"
-    github_account_name: str | None = "Newvento"
-    github_url: str | None = "https://github.com/Newvento"
+    user_name: str | None = None #"Newton"
+    nick_name: str | None = None #"NewGravity"
+    github_account_name: str | None = None #"Newvento"
+    github_url: str | None = None #"https://github.com/Newvento"
     CONFIG: dict[str, any] = {
         "Setup Date" : f"{setup_date['YEAR']}-{setup_date['MONTH']}-{setup_date['DAY']}_{setup_date['DAY_NUM']}-[{setup_date['TIME']}]",
         "Version" : project_c_version,
@@ -63,6 +63,8 @@ class TemplateDatabase():
 ################################################################################
 """
 
+    DEFAULT_GITIGNORE_CONTENT: str = """.venv\n.info"""
+
     # TEMPLATE: dict[str, str] = {
     #     "HEADER" : _SOURCE_CODE_HEADER,
 
@@ -75,9 +77,18 @@ PROJECT ID: {project.p_uid}
 PROJECT RESERVOIR PATH: {project.full_path}
 CREATION DATE-TIME: {project.creation_datetime["SHORT_FORM"]} - [{project.creation_datetime["TIME"]}] 
 STATUS: {project.status}
+VENV NAME: {project.venv_name}
 DESCRIPTION: {project.description}
 """     
         return INFO_DATA
+
+
+
+class ProjectDatabaseNonExistentException():
+    """
+    This exception is thrown by the methods (except create_database()) in ProjectDatabase() when the projects.db file is missing (deleted or not yet created).
+    """
+    pass
 
 
 class ProjectDatabase():
