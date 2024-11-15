@@ -194,13 +194,13 @@ if __name__ == "__main__":
     #     "Python library for building games in Python."
     # )
     #print(TemplateDatabase.get_info_data(test_project))
-    ProjectDatabase.create_database()
-    project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
-    project.full_path = "home/nelmatrix/Project_Reservoir"
-    project.venv_prompt = "Game Prompt"
-    project.status = "ONGOING"
-    ProjectDatabase.insert_project_data(project)
-    print("New project entry added successfully!")
-
+    # ProjectDatabase.create_database()
+    # project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
+    # project.full_path = "home/nelmatrix/Project_Reservoir"
+    # project.venv_prompt = "Game Prompt"
+    # project.status = "ONGOING"
+    # ProjectDatabase.insert_project_data(project)
+    # print("New project entry added successfully!")
+    pass
 
 # end of program
