@@ -100,7 +100,7 @@ class ProjectDatabase():
         db_conn: sql.Connection = sql.connect(ProjectDatabase.project_database_path)
         db_cursor: sql.Cursor = db_conn.cursor()
         db_cursor.execute("""
-            CREATE TABLE IF NOT EXISTS project_data (
+            CREATE TABLE IF NOT EXISTS projects_table (
                 id text NOT NULL PRIMARY KEY,
                 name text NOT NULL,
                 status text NOT NULL,
@@ -117,13 +117,33 @@ class ProjectDatabase():
     def insert_project_data(project: Project) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException
+        str_creation_datetime: str = str.join(';',[
+            project.creation_datetime["SHORT_FORM"],
+            project.creation_datetime["YEAR"],
+            project.creation_datetime["MONTH"],
+            project.creation_datetime["DAY"],
+            project.creation_datetime["DAY_NUM"],
+            project.creation_datetime["TIME"]
+        ])
+        project_data: tuple[str] = (
+            project.p_uid,
+            project.raw_name,
+            project.description,
+            str_creation_datetime,
+            project.full_path,
+            project.venv_prompt,
+            project.status
+        )
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
-            db_cursor.commit()
+                INSERT INTO projects_table(
+                    id, name, project_description, creation_datetime, full_path, venv_prompt, status          
+                    )
+                VALUES(?, ?, ?, ?, ?, ?, ?);
+            """, project_data)
+            db_conn.commit()
 
 
     def retrieve_project_data(project: Project) -> None:
@@ -135,7 +155,7 @@ class ProjectDatabase():
             db_cursor.execute("""
 
             """)
-            db_cursor.commit()
+            db_conn.commit()
 
    
     def update_project_data(project: Project) -> None:
@@ -147,7 +167,7 @@ class ProjectDatabase():
             db_cursor.execute("""
 
             """)
-            db_cursor.commit()
+            db_conn.commit()
 
 
     def delete_project_data(project: Project) -> None:
@@ -159,12 +179,14 @@ class ProjectDatabase():
             db_cursor.execute("""
 
             """)
-            db_cursor.commit()
+            db_conn.commit()
 
 
 
 if __name__ == "__main__":
-    #Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
+    path: str = "../Databases"
+    if not Path(path).exists():
+        Path.mkdir(path)   # Implement this specific line in the initializer.py module
     #ConfigurationDatabase.create_database()
     #print(TemplateDatabase.TEMPLATE["HEADER"])
     # test_project: Project = Project(
@@ -172,7 +194,13 @@ if __name__ == "__main__":
     #     "Python library for building games in Python."
     # )
     #print(TemplateDatabase.get_info_data(test_project))
-    #ProjectDatabase.create_database()
-    pass
+    ProjectDatabase.create_database()
+    project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
+    project.full_path = "home/nelmatrix/Project_Reservoir"
+    project.venv_prompt = "Game Prompt"
+    project.status = "ONGOING"
+    ProjectDatabase.insert_project_data(project)
+    print("New project entry added successfully!")
+
 
 # end of program
