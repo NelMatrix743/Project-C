@@ -54,14 +54,14 @@ class ConfigurationDatabase():
 class TemplateDatabase():
 
     # Note: Static class. Must not be initialized
-    SOURCE_CODE_HEADER: str = f"""
-################################################################################
-# Programmer.name = {ConfigurationDatabase.CONFIG["User Name"]}{(59 - len(ConfigurationDatabase.CONFIG["User Name"]))*' '}#
-# Programmer.nick_name = {ConfigurationDatabase.CONFIG["Nick Name"]}{(54 - len(ConfigurationDatabase.CONFIG["Nick Name"]))*' '}#
-# Programmer.GitHub.user_name = {ConfigurationDatabase.CONFIG["GitHub Name"]}{(47 - len(ConfigurationDatabase.CONFIG["GitHub Name"]))*' '}#
-# Programmer.GitHub.url = {ConfigurationDatabase.CONFIG["GitHub URL"]}{(53 - len(ConfigurationDatabase.CONFIG["GitHub URL"]))*' '}#
-################################################################################
-"""
+#     SOURCE_CODE_HEADER: str = f"""
+# ################################################################################
+# # Programmer.name = {ConfigurationDatabase.CONFIG["User Name"]}{(59 - len(ConfigurationDatabase.CONFIG["User Name"]))*' '}#
+# # Programmer.nick_name = {ConfigurationDatabase.CONFIG["Nick Name"]}{(54 - len(ConfigurationDatabase.CONFIG["Nick Name"]))*' '}#
+# # Programmer.GitHub.user_name = {ConfigurationDatabase.CONFIG["GitHub Name"]}{(47 - len(ConfigurationDatabase.CONFIG["GitHub Name"]))*' '}#
+# # Programmer.GitHub.url = {ConfigurationDatabase.CONFIG["GitHub URL"]}{(53 - len(ConfigurationDatabase.CONFIG["GitHub URL"]))*' '}#
+# ################################################################################
+# """
 
     DEFAULT_GITIGNORE_CONTENT: str = """.venv\n.info"""
 
@@ -94,23 +94,54 @@ class ProjectDatabaseNonExistentException():
 class ProjectDatabase():
 
     # Note: Static class. Must not be initialized
-    project_database_path: Path | None = None
+    project_database_path: Path = Path("../Databases/projects.db")
 
     def create_database() -> None:
-        ProjectDatabase.project_database_path = Path("../Databases/projects.db")
+        db_conn: sql.Connection = sql.connect(ProjectDatabase.project_database_path)
+        db_cursor: sql.Cursor = db_conn.cursor()
+        db_cursor.execute("""
+            CREATE TABLE project_data (
+                id text NOT NULL PRIMARY KEY,
+                name text NOT NULL,
+                status text NOT NULL,
+                project_description text,
+                venv_prompt text,                    
+                creation_datetime text NOT NULL,
+                commence_datetime text,
+                end_datetime text,
+                last_access_datetime text 
+            );
+              """)
+        db_conn.close()
+
+
+    def insert_project_data(project: Project) -> None:
+        pass
+
+
+    def retrieve_project_data() -> None:
+        pass
+
+    
+    def update_project_data() -> None:
+        pass
+
+
+    def delete_project_data() -> None:
+        pass
 
 
 
 if __name__ == "__main__":
-    # Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
+    Path.mkdir("../Databases")   # Implement this specific line in the initializer.py module
     # ConfigurationDatabase.create_database()
-
     #print(TemplateDatabase.TEMPLATE["HEADER"])
-    test_project: Project = Project(
-        "Pygame",
-        "Python library for building games in Python."
-    )
+    # test_project: Project = Project(
+    #     "Pygame",
+    #     "Python library for building games in Python."
+    # )
+    #print(TemplateDatabase.get_info_data(test_project))
+    ProjectDatabase.create_database()
 
-    print(TemplateDatabase.get_info_data(test_project))
 
 # end of program
