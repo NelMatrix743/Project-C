@@ -32,14 +32,14 @@ class Project():
 
 
     @property
-    def creation_time(self) -> str:
+    def creation_datetime(self) -> str:
         if self._creation_datetime == None:
             return Util.retrieve_datetime()
         return self._creation_datetime
 
 
-    @property.setter
-    def creation_time(self, dict_datetime: dict[str, str]) -> None:
+    @creation_datetime.setter
+    def creation_datetime(self, dict_datetime: dict[str, str]) -> None:
         self._creation_datetime = dict_datetime
 
 
@@ -52,7 +52,8 @@ Description: {self.description}
         """
 
 if __name__ == "__main__":
-    p = Project("Hello World", description="This is a simple Hello world program.")
-    print(p)
+    # p = Project("Hello World", description="This is a simple Hello world program.")
+    # print(p)
+    pass
 
 # end of Project()
