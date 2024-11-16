@@ -20,7 +20,7 @@ class Project():
         self._parsed_name: str = Util.parse_name(input_name)
         self.p_uid: str = Util.generate_project_uid(self._parsed_name)
         self.description: str | None = description
-        self.creation_datetime: dict[str, str] = Util.retrieve_datetime()
+        self._creation_datetime: dict[str, str] | None = None        
         self.status: str | None = None
         self.full_path: str = None
         self.venv_prompt: str | None = None
@@ -29,6 +29,18 @@ class Project():
     @property
     def parsed_name(self) -> str:
         return str.join('_', self._parsed_name)
+
+
+    @property
+    def creation_time(self) -> str:
+        if self._creation_datetime == None:
+            return Util.retrieve_datetime()
+        return self._creation_datetime
+
+
+    @property.setter
+    def creation_time(self, dict_datetime: dict[str, str]) -> None:
+        self._creation_datetime = dict_datetime
 
 
     def __str__(self) -> str:
