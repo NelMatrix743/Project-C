@@ -10,6 +10,7 @@ import string
 import random 
 from display import * 
 from utils import Util
+from typing import Self
 
 
 class Project():

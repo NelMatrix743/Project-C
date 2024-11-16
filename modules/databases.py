@@ -146,7 +146,7 @@ class ProjectDatabase():
             db_conn.commit()
 
 
-    def retrieve_project_data(project: Project) -> None:
+    def retrieve_project_data(project_id: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
@@ -158,7 +158,7 @@ class ProjectDatabase():
             db_conn.commit()
 
    
-    def update_project_data(project: Project) -> None:
+    def update_project_data(project_id: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
@@ -170,7 +170,7 @@ class ProjectDatabase():
             db_conn.commit()
 
 
-    def delete_project_data(project: Project) -> None:
+    def delete_project_data(project_id: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
@@ -184,9 +184,9 @@ class ProjectDatabase():
 
 
 if __name__ == "__main__":
-    path: str = "../Databases"
-    if not Path(path).exists():
-        Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    # path: str = "../Databases"
+    # if not Path(path).exists():
+    #     Path.mkdir(path)   # Implement this specific line in the initializer.py module
     #ConfigurationDatabase.create_database()
     #print(TemplateDatabase.TEMPLATE["HEADER"])
     # test_project: Project = Project(
