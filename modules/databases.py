@@ -103,11 +103,11 @@ class ProjectDatabase():
             CREATE TABLE IF NOT EXISTS projects_table (
                 id text NOT NULL PRIMARY KEY,
                 name text NOT NULL,
-                status text NOT NULL,
                 project_description text,
-                venv_prompt text NOT NULL,
+                creation_datetime text NOT NULL,
                 full_path text NOT NULL,
-                creation_datetime text NOT NULL
+                venv_prompt text NOT NULL,
+                status text NOT NULL
             );
               """)
         db_conn.commit()
@@ -146,16 +146,23 @@ class ProjectDatabase():
             db_conn.commit()
 
 
-    def retrieve_project_data(project_id: str) -> None:
+    def retrieve_project_data(project_id: str) -> Project | None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
-            db_conn.commit()
+                SELECT * FROM projects_table WHERE id = ?;
+            """, (project_id,))
+            result: tuple[str] = db_cursor.fetchone()
+            return_project: Project = Project(result[1], description=result[2])
+            return_project.p_uid = result[0]
+            return_project.creation_datetime = Util.parse_datetime(result[3])
+            return_project.full_path = result[4]
+            return_project.venv_prompt = result[5]
+            return_project.status = result[6]
+            return return_project
 
    
     def update_project_data(project_id: str) -> None:
@@ -187,13 +194,13 @@ if __name__ == "__main__":
     # path: str = "../Databases"
     # if not Path(path).exists():
     #     Path.mkdir(path)   # Implement this specific line in the initializer.py module
-    #ConfigurationDatabase.create_database()
-    #print(TemplateDatabase.TEMPLATE["HEADER"])
-    # test_project: Project = Project(
-    #     "Pygame",
-    #     "Python library for building games in Python."
-    # )
-    #print(TemplateDatabase.get_info_data(test_project))
+    # #ConfigurationDatabase.create_database()
+    # #print(TemplateDatabase.TEMPLATE["HEADER"])
+    # # test_project: Project = Project(
+    # #     "Pygame",
+    # #     "Python library for building games in Python."
+    # # )
+    # #print(TemplateDatabase.get_info_data(test_project))
     # ProjectDatabase.create_database()
     # project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
     # project.full_path = "home/nelmatrix/Project_Reservoir"
@@ -201,6 +208,7 @@ if __name__ == "__main__":
     # project.status = "ONGOING"
     # ProjectDatabase.insert_project_data(project)
     # print("New project entry added successfully!")
+    # print(ProjectDatabase.retrieve_project_data(project.p_uid))
     pass
 
 # end of program
