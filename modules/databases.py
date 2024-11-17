@@ -52,7 +52,7 @@ class ConfigurationDatabase():
 
 
 class TemplateDatabase():
-
+    
     # Note: Static class. Must not be initialized
 #     SOURCE_CODE_HEADER: str = f"""
 # ################################################################################
@@ -155,14 +155,29 @@ class ProjectDatabase():
             db_cursor.execute("""
                 SELECT * FROM projects_table WHERE id = ?;
             """, (project_id,))
-            result: tuple[str] = db_cursor.fetchone()
-            return_project: Project = Project(result[1], description=result[2])
-            return_project.p_uid = result[0]
-            return_project.creation_datetime = Util.parse_datetime(result[3])
-            return_project.full_path = result[4]
-            return_project.venv_prompt = result[5]
-            return_project.status = result[6]
+            result: tuple[str] | None = db_cursor.fetchone()
+            return_project: Project | None = None
+            if result: # Not None
+                return_project = Project(result[1], description=result[2])
+                return_project.p_uid = result[0]
+                return_project.creation_datetime = Util.parse_datetime(result[3])
+                return_project.full_path = result[4]
+                return_project.venv_prompt = result[5]
+                return_project.status = result[6]
             return return_project
+
+
+    def retrieve_all_projects_data() -> list[Project] | None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+                SELECT * FROM projects_table;
+            """)
+            result: list[tuple[str]] = db_cursor.fetchall() # If no row is found, an empty list is returned
+            return result
 
    
     def update_project_data(project_id: str) -> None:
@@ -193,7 +208,7 @@ class ProjectDatabase():
 if __name__ == "__main__":
     # path: str = "../Databases"
     # if not Path(path).exists():
-    #     Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
     # #ConfigurationDatabase.create_database()
     # #print(TemplateDatabase.TEMPLATE["HEADER"])
     # # test_project: Project = Project(
@@ -208,7 +223,8 @@ if __name__ == "__main__":
     # project.status = "ONGOING"
     # ProjectDatabase.insert_project_data(project)
     # print("New project entry added successfully!")
-    # print(ProjectDatabase.retrieve_project_data(project.p_uid))
+    # print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
+    # print(f"Second project: {ProjectDatabase.retrieve_project_data('ae2f6')}")
     pass
 
 # end of program

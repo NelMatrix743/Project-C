@@ -36,7 +36,7 @@ class Util():
         date_dict: dict[str, str] = dict(zip(date_list, date_str.split()))
         return date_dict
 
-
+    
     def parse_datetime(datetime_str: str) -> dict[str, str]:
         date_list: list[str] = ["SHORT_FORM", "YEAR", "MONTH", "DAY", "DAY_NUM", "TIME"]
         values_list: list[str] = datetime_str.split(';')
@@ -49,3 +49,4 @@ if __name__ == "__main__":
     # print(result)
     pass
 # end of source code
+# %%
