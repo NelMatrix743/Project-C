@@ -44,7 +44,8 @@ class Util():
 
 
 if __name__ == "__main__":
-    print(Util.retrieve_datetime()["DAY_NUM"])
-    result = Util.parse_datetime('11/16/24;2024;November;Saturday;16;23:17:18')
-    print(result)
+    # print(Util.retrieve_datetime()["DAY_NUM"])
+    # result = Util.parse_datetime('11/16/24;2024;November;Saturday;16;23:17:18')
+    # print(result)
+    pass
 # end of source code

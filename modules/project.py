@@ -15,7 +15,7 @@ from typing import Self
 
 class Project():
     
-    def __init__(self, input_name, description: str | None = None):
+    def __init__(self, input_name: str, description: str | None = None):
         self.raw_name: str = input_name
         self._parsed_name: str = Util.parse_name(input_name)
         self.p_uid: str = Util.generate_project_uid(self._parsed_name)
@@ -49,6 +49,10 @@ Raw Name: {self.raw_name}
 Project ID: {self.p_uid}
 Parsed Name: {self.parsed_name}
 Description: {self.description}
+Creation DateTime: {self._creation_datetime}
+Full Path: {self.full_path}
+Venv Promt: {self.venv_prompt}
+Status: {self.status}
         """
 
 if __name__ == "__main__":
