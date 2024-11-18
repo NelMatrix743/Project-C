@@ -101,13 +101,13 @@ class ProjectDatabase():
         db_cursor: sql.Cursor = db_conn.cursor()
         db_cursor.execute("""
             CREATE TABLE IF NOT EXISTS projects_table (
-                id text NOT NULL PRIMARY KEY,
-                name text NOT NULL,
+                project_id text NOT NULL PRIMARY KEY,
+                project_name text NOT NULL,
                 project_description text,
                 creation_datetime text NOT NULL,
-                full_path text NOT NULL,
+                reservoir_path text NOT NULL,
                 venv_prompt text NOT NULL,
-                status text NOT NULL
+                project_status text NOT NULL
             );
               """)
         db_conn.commit()
@@ -139,7 +139,7 @@ class ProjectDatabase():
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
                 INSERT INTO projects_table(
-                    id, name, project_description, creation_datetime, full_path, venv_prompt, status          
+                    project_id, project_name, project_description, creation_datetime, reservoir_path, venv_prompt, project_status          
                     )
                 VALUES(?, ?, ?, ?, ?, ?, ?);
             """, project_data)
@@ -153,7 +153,7 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-                SELECT * FROM projects_table WHERE id = ?;
+                SELECT * FROM projects_table WHERE project_id = ?;
             """, (project_id,))
             result: tuple[str] | None = db_cursor.fetchone()
             return_project: Project | None = None
@@ -206,9 +206,9 @@ class ProjectDatabase():
 
 
 if __name__ == "__main__":
-    # path: str = "../Databases"
-    # if not Path(path).exists():
-    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    path: str = "../Databases"
+    if not Path(path).exists():
+       Path.mkdir(path)   # Implement this specific line in the initializer.py module
     # #ConfigurationDatabase.create_database()
     # #print(TemplateDatabase.TEMPLATE["HEADER"])
     # # test_project: Project = Project(
@@ -216,15 +216,15 @@ if __name__ == "__main__":
     # #     "Python library for building games in Python."
     # # )
     # #print(TemplateDatabase.get_info_data(test_project))
-    # ProjectDatabase.create_database()
-    # project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
-    # project.full_path = "home/nelmatrix/Project_Reservoir"
-    # project.venv_prompt = "Game Prompt"
-    # project.status = "ONGOING"
-    # ProjectDatabase.insert_project_data(project)
-    # print("New project entry added successfully!")
-    # print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
-    # print(f"Second project: {ProjectDatabase.retrieve_project_data('ae2f6')}")
-    pass
+    ProjectDatabase.create_database()
+    project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
+    project.full_path = "home/nelmatrix/Project_Reservoir"
+    project.venv_prompt = "Game Prompt"
+    project.status = "ONGOING"
+    ProjectDatabase.insert_project_data(project)
+    print("New project entry added successfully!")
+    print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
+    print(f"Second project: {ProjectDatabase.retrieve_project_data('ae2f6')}")
+#    pass
 
 # end of program
