@@ -175,8 +175,69 @@ class ProjectDatabase():
             result: list[tuple[str]] = db_cursor.fetchall() # If no row is found, an empty list is returned
             return result
 
-   
-    def update_project_data(project_id: str) -> None:
+
+    def update_project_id_data(project_id: str) -> None:
+        new_project_id: str 
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_conn.commit()
+            
+               
+    def update_project_name_data(project_id: str, new_name: str) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_conn.commit()
+
+
+    def update_project_description_data(project_id: str, new_description: str) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_conn.commit()
+
+
+    def update_project_status_data(project_id: str, new_status: str) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_conn.commit()
+            
+        
+    def update_project_venv_prompt_data(project_id: str, new_venv_promt: str) -> None:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException    
+        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+
+            """)
+            db_conn.commit()
+    
+
+    def update_project_reservoir_path_data(project_id: str, new_reservoir_path: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
