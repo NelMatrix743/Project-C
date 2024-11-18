@@ -51,24 +51,7 @@ class ConfigurationDatabase():
 
 
 
-class TemplateDatabase():
-    
-    # Note: Static class. Must not be initialized
-#     SOURCE_CODE_HEADER: str = f"""
-# ################################################################################
-# # Programmer.name = {ConfigurationDatabase.CONFIG["User Name"]}{(59 - len(ConfigurationDatabase.CONFIG["User Name"]))*' '}#
-# # Programmer.nick_name = {ConfigurationDatabase.CONFIG["Nick Name"]}{(54 - len(ConfigurationDatabase.CONFIG["Nick Name"]))*' '}#
-# # Programmer.GitHub.user_name = {ConfigurationDatabase.CONFIG["GitHub Name"]}{(47 - len(ConfigurationDatabase.CONFIG["GitHub Name"]))*' '}#
-# # Programmer.GitHub.url = {ConfigurationDatabase.CONFIG["GitHub URL"]}{(53 - len(ConfigurationDatabase.CONFIG["GitHub URL"]))*' '}#
-# ################################################################################
-# """
-
-    DEFAULT_GITIGNORE_CONTENT: str = """.venv\n.info"""
-
-    # TEMPLATE: dict[str, str] = {
-    #     "HEADER" : _SOURCE_CODE_HEADER,
-
-    # }
+class InfoContentManager():
 
     def get_info_data(project: Project) -> str:
         INFO_DATA: str = f"""
@@ -84,11 +67,24 @@ DESCRIPTION: {project.description}
 
 
 
-class ProjectDatabaseNonExistentException(Exception):
-    """
-    This exception is thrown by the methods (except create_database()) in ProjectDatabase() when the projects.db file is missing (deleted or not yet created).
-    """
-    pass
+class TemplateDatabase():
+    
+    # Note: Static class. Must not be initialized
+
+    def get_source_code_header() -> str:
+        return f"""
+# ################################################################################
+# # Programmer.name = {ConfigurationDatabase.CONFIG["User Name"]}{(59 - len(ConfigurationDatabase.CONFIG["User Name"]))*' '}#
+# # Programmer.nick_name = {ConfigurationDatabase.CONFIG["Nick Name"]}{(54 - len(ConfigurationDatabase.CONFIG["Nick Name"]))*' '}#
+# # Programmer.GitHub.user_name = {ConfigurationDatabase.CONFIG["GitHub Name"]}{(47 - len(ConfigurationDatabase.CONFIG["GitHub Name"]))*' '}#
+# # Programmer.GitHub.url = {ConfigurationDatabase.CONFIG["GitHub URL"]}{(53 - len(ConfigurationDatabase.CONFIG["GitHub URL"]))*' '}#
+# ################################################################################
+# """
+
+
+    def get_default_git_content() -> str:
+        return """.venv\n.info"""
+    
 
 
 class ProjectDatabase():
@@ -202,6 +198,14 @@ class ProjectDatabase():
 
             """)
             db_conn.commit()
+
+
+
+class ProjectDatabaseNonExistentException(Exception):
+    """
+    This exception is thrown by the methods (except create_database()) in ProjectDatabase() when the projects.db file is missing (deleted or not yet created).
+    """
+    pass
 
 
 
