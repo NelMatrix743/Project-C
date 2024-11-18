@@ -53,17 +53,40 @@ class ConfigurationDatabase():
 
 class InfoContentManager():
 
-    def get_info_data(project: Project) -> str:
-        INFO_DATA: str = f"""
-PROJECT NAME: {project.raw_name}
-PROJECT ID: {project.p_uid}
-PROJECT RESERVOIR PATH: {project.full_path}
-CREATION DATE-TIME: {project.creation_datetime["SHORT_FORM"]} - [{project.creation_datetime["TIME"]}] 
-STATUS: {project.status}
-VENV NAME: {project.venv_name}
-DESCRIPTION: {project.description}
-"""     
-        return INFO_DATA
+    def get_info_data(project: Project) -> dict[str, str]:
+        return {
+            "PROJECT NAME" : project.parsed_name,
+            "PROJECT ID" : project.p_uid,
+            "DESCRIPTION" : project.description,
+            "CREATION DATE-TIME" : f"{project.creation_datetime["SHORT_FORM"]} - [{project.creation_datetime["TIME"]}",
+            "PROJECT RESERVOIR PATH" : project.full_path,
+            "VENV PROMPT" : project.venv_prompt,
+            "STATUS" : project.status
+        }
+
+
+    def update_id(info_file_path: str, new_id: str) -> None:
+        pass
+
+
+    def update_name(info_file_path: str, new_name: str) -> None:
+        pass       
+
+    
+    def update_description(info_file_path: str, new_description: str) -> None:
+        pass
+
+
+    def update_reservoir_path(info_file_path: str, new_reservoir_path: str) -> None:
+        pass
+
+
+    def update_venv_prompt(info_file_path: str, new_venv_prompt: str) -> None:
+        pass
+
+
+    def update_status(info_file_path: str, new_status: str) -> None:
+        pass
 
 
 
@@ -176,8 +199,7 @@ class ProjectDatabase():
             return result
 
 
-    def update_project_id_data(project_id: str) -> None:
-        new_project_id: str 
+    def update_project_id_data(old_project_id: str, new_project_id: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
