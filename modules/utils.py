@@ -19,10 +19,17 @@ class Util():
 
     # Note: Static class. Must not be initialized.
     def parse_name(raw_name: str) -> str:
-        name_tokens: list[str] = raw_name.replace('-', ' ').replace('_', ' ').split(" ")
-        return name_tokens
-
-
+        for char in raw_name:
+            if char in string.punctuation:
+                raw_name = raw_name.replace(char, ' ')
+        name_tokens: list[str] = raw_name.split(' ')
+        print(name_tokens)
+        for token in name_tokens:
+            if len(token) == 0 or token == ' ':
+                name_tokens.remove(token)
+        return str.join('_', [token.lower() for token in name_tokens])
+   
+   
     def generate_project_uid(project_name: str) -> str:
         """ Generate a unique ID of the format: prjt-XXXX-ABCDE"""
         prefix: str = "prjt"
@@ -47,6 +54,8 @@ if __name__ == "__main__":
     # print(Util.retrieve_datetime()["DAY_NUM"])
     # result = Util.parse_datetime('11/16/24;2024;November;Saturday;16;23:17:18')
     # print(result)
+    # name = "Some _Name-PROJECT_2+37 version 2.3.0"
+    # print(Util.parse_name(name))
     pass
 # end of source code
 # %%
