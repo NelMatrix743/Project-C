@@ -31,10 +31,15 @@ class Util():
    
    
     def generate_project_uid(project_name: str) -> str:
-        """ Generate a unique ID of the format: prjt-XXXX-ABCDE"""
-        prefix: str = "prjt"
-        random_hex_str: str = ''.join([random.choice(VALID_HEX_ID_CHARACTERS) for ch in range(5)])
-        return random_hex_str
+        """ Generate a unique ID of the format: prjt-XXXXX-ABCDE"""
+        constant_marker: str = "prjt"
+        random_hex_str: str = ''.join([random.choice(VALID_HEX_ID_CHARACTERS) for ch in range(6)])
+        parsed_name: str = Util.parse_name(project_name)
+        name_tokens: list[str] = parsed_name.split('_')
+        name_initials: str = ""
+        for token in name_tokens:
+            name_initials += token[0]
+        return str.join('-', [constant_marker, random_hex_str, name_initials])
 
 
     def retrieve_datetime() -> dict[str, str]:
@@ -54,8 +59,9 @@ if __name__ == "__main__":
     # print(Util.retrieve_datetime()["DAY_NUM"])
     # result = Util.parse_datetime('11/16/24;2024;November;Saturday;16;23:17:18')
     # print(result)
-    # name = "Some _Name-PROJECT_2+37 version 2.3.0"
+    # name = "Pedestrian Scanner Simulator version 3"
     # print(Util.parse_name(name))
+    # print(Util.generate_project_uid(name))
     pass
 # end of source code
 # %%
