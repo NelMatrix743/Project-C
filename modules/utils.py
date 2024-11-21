@@ -30,12 +30,11 @@ class Util():
         return str.join('_', [token.lower() for token in name_tokens])
    
    
-    def generate_project_uid(project_name: str) -> str:
+    def generate_project_uid(project_parsed_name: str) -> str:
         """ Generate a unique ID of the format: prjt-XXXXX-ABCDE"""
         constant_marker: str = "prjt"
         random_hex_str: str = ''.join([random.choice(VALID_HEX_ID_CHARACTERS) for ch in range(6)])
-        parsed_name: str = Util.parse_name(project_name)
-        name_tokens: list[str] = parsed_name.split('_')
+        name_tokens: list[str] = project_parsed_name.split('_')
         name_initials: str = ""
         for token in name_tokens:
             name_initials += token[0]
