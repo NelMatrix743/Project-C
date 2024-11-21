@@ -23,7 +23,6 @@ class Util():
             if char in string.punctuation:
                 raw_name = raw_name.replace(char, ' ')
         name_tokens: list[str] = raw_name.split(' ')
-        print(name_tokens)
         for token in name_tokens:
             if len(token) == 0 or token == ' ':
                 name_tokens.remove(token)

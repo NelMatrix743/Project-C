@@ -58,7 +58,7 @@ class InfoContentManager():
             "PROJECT NAME" : project.parsed_name,
             "PROJECT ID" : project.p_uid,
             "DESCRIPTION" : project.description,
-            "CREATION DATE-TIME" : f"{project.creation_datetime["SHORT_FORM"]} - [{project.creation_datetime["TIME"]}",
+            "CREATION DATE-TIME" : f"{project.creation_datetime['SHORT_FORM']} - {project.creation_datetime['TIME']}",
             "PROJECT RESERVOIR PATH" : project.full_path,
             "VENV PROMPT" : project.venv_prompt,
             "STATUS" : project.status
@@ -156,13 +156,18 @@ class ProjectDatabase():
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
-            db_cursor.execute("""
-                INSERT INTO projects_table(
-                    project_id, project_name, project_description, creation_datetime, reservoir_path, venv_prompt, project_status          
-                    )
-                VALUES(?, ?, ?, ?, ?, ?, ?);
-            """, project_data)
-            db_conn.commit()
+            try:
+                db_cursor.execute("""
+                    INSERT INTO projects_table(
+                        project_id, project_name, project_description, creation_datetime, reservoir_path, venv_prompt, project_status          
+                        )
+                    VALUES(?, ?, ?, ?, ?, ?, ?);
+                """, project_data)
+                db_conn.commit()
+            except sql.IntegrityError as error:
+                if "unique constraint failed" in str(error).lower():
+                    project.p_uid = Util.generate_project_uid(project.parsed_name)
+                    ProjectDatabase.insert_project_data(project)                    
 
 
     def retrieve_project_data(project_id: str) -> Project | None:
@@ -200,15 +205,20 @@ class ProjectDatabase():
 
 
     def update_project_id_data(old_project_id: str, new_project_id: str) -> None:
+        if old_project_id == new_project_id:
+            return
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
         # Implement sql-exception try-catch statements for cases such database file corruption, etc.
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                  UPDATE projects_table SET project_id = ? WHERE project_id = ?;
+            """, (new_project_id, old_project_id))
             db_conn.commit()
+            print(f"The total number of row modified is: {db_cursor.rowcount}")
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
             
                
     def update_project_name_data(project_id: str, new_name: str) -> None:
@@ -292,26 +302,40 @@ class ProjectDatabaseNonExistentException(Exception):
 
 
 
-if __name__ == "__main__":
-    path: str = "../Databases"
-    if not Path(path).exists():
-       Path.mkdir(path)   # Implement this specific line in the initializer.py module
-    # #ConfigurationDatabase.create_database()
-    # #print(TemplateDatabase.TEMPLATE["HEADER"])
-    # # test_project: Project = Project(
-    # #     "Pygame",
-    # #     "Python library for building games in Python."
-    # # )
-    # #print(TemplateDatabase.get_info_data(test_project))
-    ProjectDatabase.create_database()
-    project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
-    project.full_path = "home/nelmatrix/Project_Reservoir"
-    project.venv_prompt = "Game Prompt"
-    project.status = "ONGOING"
-    ProjectDatabase.insert_project_data(project)
-    print("New project entry added successfully!")
-    print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
-    print(f"Second project: {ProjectDatabase.retrieve_project_data('ae2f6')}")
-#    pass
+class ProjectEntryDoesNotExistException(Exception):
+    """
+    This exception is thrown when a user tries to query a project entry/row from the projects.db database but the entry does not exist (or has been deleted).
+    """
+    pass
 
+
+
+if __name__ == "__main__":
+    # path: str = "../Databases"
+    # if not Path(path).exists():
+    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    # # #ConfigurationDatabase.create_database()
+    # # #print(TemplateDatabase.TEMPLATE["HEADER"])
+    # # # test_project: Project = Project(
+    # # #     "Pygame",
+    # # #     "Python library for building games in Python."
+    # # # )
+    # # #print(TemplateDatabase.get_info_data(test_project))
+    # ProjectDatabase.create_database()
+    # project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
+    # project.full_path = "home/nelmatrix/Project_Reservoir"
+    # project.venv_prompt = "Game Prompt"
+    # project.status = "ONGOING"
+    # ProjectDatabase.insert_project_data(project)
+    # print("New project entry added successfully!")
+    # print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
+    # new_id: str = Util.generate_project_uid(project.parsed_name)
+    # try:
+    #     ProjectDatabase.update_project_id_data(project.p_uid, new_id)
+    #     print("Project ID updated successfully!")
+    #     print(f"Update: {ProjectDatabase.retrieve_project_data(new_id)}")
+    # except ProjectEntryDoesNotExistException:
+    #     print("No project entry with that ID was found in the database.")
+    pass
+  
 # end of program
