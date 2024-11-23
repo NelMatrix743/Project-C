@@ -213,10 +213,9 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-                  UPDATE projects_table SET project_id = ? WHERE project_id = ?;
+                UPDATE projects_table SET project_id = ? WHERE project_id = ?;
             """, (new_project_id, old_project_id))
             db_conn.commit()
-            print(f"The total number of row modified is: {db_cursor.rowcount}")
             if db_cursor.rowcount == 0:
                 raise ProjectEntryDoesNotExistException
             
@@ -228,9 +227,11 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                UPDATE projects_table SET project_name = ? WHERE project_id = ?; 
+            """, (new_name, project_id))
             db_conn.commit()
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
 
 
     def update_project_description_data(project_id: str, new_description: str) -> None:
@@ -240,9 +241,11 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                UPDATE projects_table SET project_description = ? WHERE project_id = ?; 
+            """, (new_description, project_id))
             db_conn.commit()
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
 
 
     def update_project_status_data(project_id: str, new_status: str) -> None:
@@ -252,9 +255,11 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                UPDATE projects_table SET project_status = ? WHERE project_id = ?; 
+            """, (new_status, project_id))
             db_conn.commit()
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
             
         
     def update_project_venv_prompt_data(project_id: str, new_venv_promt: str) -> None:
@@ -264,10 +269,12 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                UPDATE projects_table SET venv_prompt = ? WHERE project_id = ?; 
+            """, (new_venv_promt, project_id))
             db_conn.commit()
-    
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
+   
 
     def update_project_reservoir_path_data(project_id: str, new_reservoir_path: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
@@ -276,9 +283,11 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                UPDATE projects_table SET reservoir_path = ? WHERE project_id = ?; 
+            """, (new_reservoir_path, project_id))
             db_conn.commit()
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
 
 
     def delete_project_data(project_id: str) -> None:
@@ -312,9 +321,9 @@ class ProjectEntryDoesNotExistException(Exception):
 
 if __name__ == "__main__":
     
-    # path: str = "../Databases"
-    # if not Path(path).exists():
-    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    path: str = "../Databases"
+    if not Path(path).exists():
+       Path.mkdir(path)   # Implement this specific line in the initializer.py module
     # # #ConfigurationDatabase.create_database()
     # # #print(TemplateDatabase.TEMPLATE["HEADER"])
     # # # test_project: Project = Project(
@@ -322,21 +331,27 @@ if __name__ == "__main__":
     # # #     "Python library for building games in Python."
     # # # )
     # # #print(TemplateDatabase.get_info_data(test_project))
-    # ProjectDatabase.create_database()
-    # project: Project = Project("PyGame Programme", "A simple game built using PyGame, a Python module.")
-    # project.full_path = "home/nelmatrix/Project_Reservoir"
-    # project.venv_prompt = "Game Prompt"
-    # project.status = "ONGOING"
-    # ProjectDatabase.insert_project_data(project)
-    # print("New project entry added successfully!")
-    # print(f"First project: {ProjectDatabase.retrieve_project_data(project.p_uid)}")
-    # new_id: str = Util.generate_project_uid(project.parsed_name)
-    # try:
-    #     ProjectDatabase.update_project_id_data(project.p_uid, new_id)
-    #     print("Project ID updated successfully!")
-    #     print(f"Update: {ProjectDatabase.retrieve_project_data(new_id)}")
-    # except ProjectEntryDoesNotExistException:
-    #     print("No project entry with that ID was found in the database.")
-    pass
+    ProjectDatabase.create_database()
+    project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    project.full_path = "home/nelmatrix/Project_Reservoir"
+    project.venv_prompt = "Fitnix"
+    project.status = "ONGOING"
+    ProjectDatabase.insert_project_data(project)
+    print("New project entry added successfully!\n")
+    print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
+    new_id: str = Util.generate_project_uid(project.parsed_name)
+    try:
+        ProjectDatabase.update_project_id_data(project.p_uid, new_id)
+        ProjectDatabase.update_project_name_data(new_id, "Sparkz")
+        ProjectDatabase.update_project_description_data(new_id, "I changed the name to Sparkz.")
+        ProjectDatabase.update_project_venv_prompt_data(new_id, "Sparkz")
+        ProjectDatabase.update_project_reservoir_path_data(new_id, "home/nelmatrix/Project_Reservoir/Newpath")
+        ProjectDatabase.update_project_status_data(new_id, "COMPLETED")
+        print(f"Update Project Entry: {ProjectDatabase.retrieve_project_data(new_id)}")
+        print(f"ALL Entered Data: {ProjectDatabase.retrieve_all_projects_data()}")
+    except ProjectEntryDoesNotExistException:
+        print("No project entry with that ID was found in the database.")
+    
+#    pass
   
 # end of program
