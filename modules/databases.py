@@ -209,7 +209,9 @@ class ProjectDatabase():
             return
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence project id cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -217,13 +219,15 @@ class ProjectDatabase():
             """, (new_project_id, old_project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
             
                
     def update_project_name_data(project_id: str, new_name: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence project name cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -231,13 +235,15 @@ class ProjectDatabase():
             """, (new_name, project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
 
 
     def update_project_description_data(project_id: str, new_description: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence project description cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -245,13 +251,15 @@ class ProjectDatabase():
             """, (new_description, project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
 
 
     def update_project_status_data(project_id: str, new_status: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence project status cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -259,13 +267,15 @@ class ProjectDatabase():
             """, (new_status, project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
             
         
     def update_project_venv_prompt_data(project_id: str, new_venv_promt: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence venv prompt cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -273,13 +283,15 @@ class ProjectDatabase():
             """, (new_venv_promt, project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
    
 
     def update_project_reservoir_path_data(project_id: str, new_reservoir_path: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        UPDATE_ERROR_MESSAGE: str = """
+        [UpdateError]: Invalid Project ID. Entry non-existent in the database, hence reservoir path cannot be updated.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -287,13 +299,15 @@ class ProjectDatabase():
             """, (new_reservoir_path, project_id))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(UPDATE_ERROR_MESSAGE)
 
 
     def delete_project_data(project_id: str) -> None:
         if not ProjectDatabase.project_database_path.exists():
             raise ProjectDatabaseNonExistentException    
-        # Implement sql-exception try-catch statements for cases such database file corruption, etc.
+        DELETE_ERROR_MESSAGE: str = """
+        [DeleteError]: Invalid Project ID. Entry non-existent in the database, hence it cannot be deleted.
+        """
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
@@ -301,7 +315,7 @@ class ProjectDatabase():
             """, (project_id,))
             db_conn.commit()
             if db_cursor.rowcount == 0:
-                raise ProjectEntryDoesNotExistException
+                raise ProjectEntryDoesNotExistException(DELETE_ERROR_MESSAGE)
         
 
 
@@ -323,9 +337,9 @@ class ProjectEntryDoesNotExistException(Exception):
 
 if __name__ == "__main__":
     
-    path: str = "../Databases"
-    if not Path(path).exists():
-       Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    # path: str = "../Databases"
+    # if not Path(path).exists():
+    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
     # # #ConfigurationDatabase.create_database()
     # # #print(TemplateDatabase.TEMPLATE["HEADER"])
     # # # test_project: Project = Project(
@@ -333,29 +347,29 @@ if __name__ == "__main__":
     # # #     "Python library for building games in Python."
     # # # )
     # # #print(TemplateDatabase.get_info_data(test_project))
-    ProjectDatabase.create_database()
-    project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    project.full_path = "home/nelmatrix/Project_Reservoir"
-    project.status = "ONGOING"
-    ProjectDatabase.insert_project_data(project)
-    print("New project entry added successfully!\n")
-    print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
-    new_id: str = Util.generate_project_uid(project.parsed_name)
-    try:
-        ProjectDatabase.update_project_id_data(project.p_uid, new_id)
-        ProjectDatabase.update_project_name_data(new_id, "Sparkz")
-        ProjectDatabase.update_project_description_data(new_id, "I changed the name to Sparkz.")
-        ProjectDatabase.update_project_venv_prompt_data(new_id, "Sparkz")
-        ProjectDatabase.update_project_reservoir_path_data(new_id, "home/nelmatrix/Project_Reservoir/Newpath")
-        ProjectDatabase.update_project_status_data(new_id, "COMPLETED")
-        print(f"Update Project Entry: {ProjectDatabase.retrieve_project_data(new_id)}")
-        print(f"ALL Entered Data: {ProjectDatabase.retrieve_all_projects_data()}")
-        ProjectDatabase.delete_project_data(new_id)
-        print(f"\nProject entry [{new_id}] deleted sucessfully!\n\n")
-        print(ProjectDatabase.retrieve_all_projects_data())
-    except ProjectEntryDoesNotExistException:
-        print("No project entry with that ID was found in the database.")
+    # ProjectDatabase.create_database()
+    # project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    # project.full_path = "home/nelmatrix/Project_Reservoir"
+    # project.status = "ONGOING"
+    # ProjectDatabase.insert_project_data(project)
+    # print("New project entry added successfully!\n")
+    # print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
+    # new_id: str = Util.generate_project_uid(project.parsed_name)
+    # try:
+    #     ProjectDatabase.update_project_id_data(project.p_uid, new_id)
+    #     ProjectDatabase.update_project_name_data(new_id, "Sparkz")
+    #     ProjectDatabase.update_project_description_data(new_id, "I changed the name to Sparkz.")
+    #     ProjectDatabase.update_project_venv_prompt_data(new_id, "Sparkz")
+    #     ProjectDatabase.update_project_reservoir_path_data(new_id, "home/nelmatrix/Project_Reservoir/Newpath")
+    #     ProjectDatabase.update_project_status_data(new_id, "COMPLETED")
+    #     print(f"Update Project Entry: {ProjectDatabase.retrieve_project_data(new_id)}")
+    #     print(f"ALL Entered Data: {ProjectDatabase.retrieve_all_projects_data()}")
+    #     ProjectDatabase.delete_project_data(new_id)
+    #     print(f"\nProject entry [{new_id}] deleted sucessfully!\n\n")
+    #     print(ProjectDatabase.retrieve_all_projects_data())
+    # except ProjectEntryDoesNotExistException as E:
+    #     print(E)
     
-#    pass
+    pass
   
 # end of program
