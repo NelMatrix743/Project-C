@@ -297,10 +297,12 @@ class ProjectDatabase():
         with sql.connect(ProjectDatabase.project_database_path) as db_conn:
             db_cursor: sql.Cursor = db_conn.cursor()
             db_cursor.execute("""
-
-            """)
+                DELETE FROM projects_table WHERE project_id = ?;
+            """, (project_id,))
             db_conn.commit()
-
+            if db_cursor.rowcount == 0:
+                raise ProjectEntryDoesNotExistException
+        
 
 
 class ProjectDatabaseNonExistentException(Exception):
@@ -334,7 +336,6 @@ if __name__ == "__main__":
     ProjectDatabase.create_database()
     project: Project = Project("Fitnix", "A simple fitness mobile app.")
     project.full_path = "home/nelmatrix/Project_Reservoir"
-    project.venv_prompt = "Fitnix"
     project.status = "ONGOING"
     ProjectDatabase.insert_project_data(project)
     print("New project entry added successfully!\n")
@@ -349,6 +350,9 @@ if __name__ == "__main__":
         ProjectDatabase.update_project_status_data(new_id, "COMPLETED")
         print(f"Update Project Entry: {ProjectDatabase.retrieve_project_data(new_id)}")
         print(f"ALL Entered Data: {ProjectDatabase.retrieve_all_projects_data()}")
+        ProjectDatabase.delete_project_data(new_id)
+        print(f"\nProject entry [{new_id}] deleted sucessfully!\n\n")
+        print(ProjectDatabase.retrieve_all_projects_data())
     except ProjectEntryDoesNotExistException:
         print("No project entry with that ID was found in the database.")
     
