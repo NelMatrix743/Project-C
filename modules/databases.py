@@ -53,8 +53,8 @@ class ConfigurationDatabase():
 
 class InfoContentManager():
 
-    def create_info_data_file(project: Project) -> dict[str, str]:
-        return {
+    def create_info_data_file(project: Project) -> None:
+        INFO_DATA: dict[str, str] = {
             "PROJECT NAME" : project.raw_name,
             "PROJECT ID" : project.p_uid,
             "DESCRIPTION" : project.description,
@@ -63,7 +63,12 @@ class InfoContentManager():
             "VENV PROMPT" : project.venv_prompt,
             "STATUS" : project.status
         }
-
+        INFO_DATA_FILE: Path = Path(project.full_path) / ".info"
+        if not INFO_DATA_FILE.exists():
+            with INFO_DATA_FILE.open('x') as info_file:
+                yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            
+        
 
     def update_id(info_file_path: str, new_id: str) -> None:
         pass
@@ -337,9 +342,9 @@ class ProjectEntryDoesNotExistException(Exception):
 
 if __name__ == "__main__":
     
-    # path: str = "../Databases"
-    # if not Path(path).exists():
-    #    Path.mkdir(path)   # Implement this specific line in the initializer.py module
+    # path: Path = Path("../Databases").resolve()
+    # if not path.exists():
+    #    path.mkdir()   # Implement this specific line in the initializer.py module
     # # #ConfigurationDatabase.create_database()
     # # #print(TemplateDatabase.TEMPLATE["HEADER"])
     # # # test_project: Project = Project(
@@ -349,7 +354,7 @@ if __name__ == "__main__":
     # # #print(TemplateDatabase.get_info_data(test_project))
     # ProjectDatabase.create_database()
     # project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    # project.full_path = "home/nelmatrix/Project_Reservoir"
+    # project.full_path = str(Path(f"../{project.parsed_name}").resolve())
     # project.status = "ONGOING"
     # ProjectDatabase.insert_project_data(project)
     # print("New project entry added successfully!\n")
@@ -360,7 +365,7 @@ if __name__ == "__main__":
     #     ProjectDatabase.update_project_name_data(new_id, "Sparkz")
     #     ProjectDatabase.update_project_description_data(new_id, "I changed the name to Sparkz.")
     #     ProjectDatabase.update_project_venv_prompt_data(new_id, "Sparkz")
-    #     ProjectDatabase.update_project_reservoir_path_data(new_id, "home/nelmatrix/Project_Reservoir/Newpath")
+    #     ProjectDatabase.update_project_reservoir_path_data(new_id, str(Path(f"../{project.full_path}_new").resolve()))
     #     ProjectDatabase.update_project_status_data(new_id, "COMPLETED")
     #     print(f"Update Project Entry: {ProjectDatabase.retrieve_project_data(new_id)}")
     #     print(f"ALL Entered Data: {ProjectDatabase.retrieve_all_projects_data()}")
@@ -369,6 +374,10 @@ if __name__ == "__main__":
     #     print(ProjectDatabase.retrieve_all_projects_data())
     # except ProjectEntryDoesNotExistException as E:
     #     print(E)
+    # Path.mkdir(project.full_path)
+    # InfoContentManager.create_info_data_file(project)
+    # print("Project info file created successfully!\n")
+    # print(f"Project path: {project.full_path}")
     
     pass
   
