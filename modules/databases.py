@@ -53,9 +53,9 @@ class ConfigurationDatabase():
 
 class InfoContentManager():
 
-    def get_info_data(project: Project) -> dict[str, str]:
+    def create_info_data_file(project: Project) -> dict[str, str]:
         return {
-            "PROJECT NAME" : project.parsed_name,
+            "PROJECT NAME" : project.raw_name,
             "PROJECT ID" : project.p_uid,
             "DESCRIPTION" : project.description,
             "CREATION DATE-TIME" : f"{project.creation_datetime['SHORT_FORM']} - {project.creation_datetime['TIME']}",
