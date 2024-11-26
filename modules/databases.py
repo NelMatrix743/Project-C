@@ -63,35 +63,71 @@ class InfoContentManager():
             "VENV PROMPT" : project.venv_prompt,
             "STATUS" : project.status
         }
-        INFO_DATA_FILE: Path = Path(project.full_path) / ".info"
+        INFO_DATA_FILE: Path = Path(project.full_path) / ".INFO"
         if not INFO_DATA_FILE.exists():
             with INFO_DATA_FILE.open('x') as info_file:
                 yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
             
         
 
-    def update_id(info_file_path: str, new_id: str) -> None:
-        pass
+    def update_id(project_path: str, new_id: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["PROJECT ID"] = new_id
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
 
 
-    def update_name(info_file_path: str, new_name: str) -> None:
-        pass       
+    def update_name(project_path: str, new_name: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["PROJECT NAME"] = new_name
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)       
 
     
-    def update_description(info_file_path: str, new_description: str) -> None:
-        pass
+    def update_description(project_path: str, new_description: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["DESCRIPTION"] = new_description
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
 
 
-    def update_reservoir_path(info_file_path: str, new_reservoir_path: str) -> None:
-        pass
+    def update_reservoir_path(project_path: str, new_reservoir_path: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["PROJECT RESERVOIR PATH"] = new_reservoir_path
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
 
 
-    def update_venv_prompt(info_file_path: str, new_venv_prompt: str) -> None:
-        pass
+    def update_venv_prompt(project_path: str, new_venv_prompt: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["VENV PROMPT"] = new_venv_prompt
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
 
 
-    def update_status(info_file_path: str, new_status: str) -> None:
-        pass
+    def update_status(project_path: str, new_status: str) -> None:
+        full_path: Path = Path(project_path) / ".INFO"
+        INFO_DATA: dict[str, str] | None = None
+        with Path(full_path).open('r') as info_content:
+            INFO_DATA = yaml.safe_load(info_content)
+            INFO_DATA["STATUS"] = new_status
+        with Path(full_path).open('w') as info_file:
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
 
 
 
@@ -111,7 +147,7 @@ class TemplateDatabase():
 
 
     def get_default_git_content() -> str:
-        return """.venv\n.info"""
+        return """.venv\n.INFO"""
     
 
 
@@ -353,11 +389,11 @@ if __name__ == "__main__":
     # # # )
     # # #print(TemplateDatabase.get_info_data(test_project))
     # ProjectDatabase.create_database()
-    # project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    # project.full_path = str(Path(f"../{project.parsed_name}").resolve())
-    # project.status = "ONGOING"
+    project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    project.full_path = str(Path(f"../{project.parsed_name}").resolve())
+    project.status = "ONGOING"
     # ProjectDatabase.insert_project_data(project)
-    # print("New project entry added successfully!\n")
+    print("New project entry added successfully!\n")
     # print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
     # new_id: str = Util.generate_project_uid(project.parsed_name)
     # try:
@@ -374,11 +410,24 @@ if __name__ == "__main__":
     #     print(ProjectDatabase.retrieve_all_projects_data())
     # except ProjectEntryDoesNotExistException as E:
     #     print(E)
-    # Path.mkdir(project.full_path)
-    # InfoContentManager.create_info_data_file(project)
-    # print("Project info file created successfully!\n")
-    # print(f"Project path: {project.full_path}")
+    Path.mkdir(project.full_path)
+    InfoContentManager.create_info_data_file(project)
+    print("Project info file created successfully!\n")
+    print(f"Project path: {project.full_path}")
+    InfoContentManager.update_name(project.full_path, "Fitnix Version 2.0")
+    print("Project name updated!")
+    print(f"Project initial ID: {project.p_uid}")
+    InfoContentManager.update_id(project.full_path, Util.generate_project_uid(project.parsed_name))
+    print("Project ID updated!")
+    InfoContentManager.update_description(project.full_path, "A new description for the project.")
+    print("Project Description updated!")
+    InfoContentManager.update_venv_prompt(project.full_path, Util.parse_name("Fitnix Version 2.0").upper())
+    print("Project Venv prompt updated!")
+    InfoContentManager.update_status(project.full_path, "COMPLETED")
+    print("Project Status updated!")
+    InfoContentManager.update_reservoir_path(project.full_path, "New/path/to/project/fitnix_v2")
+    print("Project Reservoir path updated!")
     
-    pass
+    # pass
   
 # end of program
