@@ -13,6 +13,7 @@ from datetime import datetime
 from pathlib import Path
 
 
+
 class ConfigurationDatabase():
 
     # Note: Static class. Must not be initialized
@@ -37,7 +38,7 @@ class ConfigurationDatabase():
 
     def create_database() -> None:
         with ConfigurationDatabase.config_database_path.open('x') as file:
-            yaml.safe_dump(ConfigurationDatabase.CONFIG, file, default_flow_style=False)
+            yaml.safe_dump(ConfigurationDatabase.CONFIG, file, default_flow_style=False, sort_keys=False)
 
 
     def load_configuration() -> dict[str, any]:
@@ -47,7 +48,7 @@ class ConfigurationDatabase():
 
     def save_configuration_changes(changes: dict[str, any]) -> None:
         with ConfigurationDatabase.config_database_path.open('w') as file:
-            yaml.safe_dump(changes, file, default_flow_style=False)
+            yaml.safe_dump(changes, file, default_flow_style=False, sort_keys=False)
 
 
 
@@ -66,7 +67,7 @@ class InfoContentManager():
         INFO_DATA_FILE: Path = Path(project.full_path) / ".INFO"
         if not INFO_DATA_FILE.exists():
             with INFO_DATA_FILE.open('x') as info_file:
-                yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+                yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
             
         
 
@@ -77,7 +78,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["PROJECT ID"] = new_id
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
 
 
     def update_name(project_path: str, new_name: str) -> None:
@@ -87,7 +88,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["PROJECT NAME"] = new_name
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)       
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)       
 
     
     def update_description(project_path: str, new_description: str) -> None:
@@ -97,7 +98,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["DESCRIPTION"] = new_description
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
 
 
     def update_reservoir_path(project_path: str, new_reservoir_path: str) -> None:
@@ -107,7 +108,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["PROJECT RESERVOIR PATH"] = new_reservoir_path
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
 
 
     def update_venv_prompt(project_path: str, new_venv_prompt: str) -> None:
@@ -117,7 +118,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["VENV PROMPT"] = new_venv_prompt
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
 
 
     def update_status(project_path: str, new_status: str) -> None:
@@ -127,7 +128,7 @@ class InfoContentManager():
             INFO_DATA = yaml.safe_load(info_content)
             INFO_DATA["STATUS"] = new_status
         with Path(full_path).open('w') as info_file:
-            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False)
+            yaml.safe_dump(INFO_DATA, info_file, default_flow_style=False, sort_keys=False)
 
 
 
