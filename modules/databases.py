@@ -390,11 +390,11 @@ if __name__ == "__main__":
     # # # )
     # # #print(TemplateDatabase.get_info_data(test_project))
     # ProjectDatabase.create_database()
-    project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    project.full_path = str(Path(f"../{project.parsed_name}").resolve())
-    project.status = "ONGOING"
+    # project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    # project.full_path = str(Path(f"../{project.parsed_name}").resolve())
+    # project.status = "ONGOING"
     # ProjectDatabase.insert_project_data(project)
-    print("New project entry added successfully!\n")
+    # print("New project entry added successfully!\n")
     # print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
     # new_id: str = Util.generate_project_uid(project.parsed_name)
     # try:
@@ -411,24 +411,24 @@ if __name__ == "__main__":
     #     print(ProjectDatabase.retrieve_all_projects_data())
     # except ProjectEntryDoesNotExistException as E:
     #     print(E)
-    Path.mkdir(project.full_path)
-    InfoContentManager.create_info_data_file(project)
-    print("Project info file created successfully!\n")
-    print(f"Project path: {project.full_path}")
-    InfoContentManager.update_name(project.full_path, "Fitnix Version 2.0")
-    print("Project name updated!")
-    print(f"Project initial ID: {project.p_uid}")
-    InfoContentManager.update_id(project.full_path, Util.generate_project_uid(project.parsed_name))
-    print("Project ID updated!")
-    InfoContentManager.update_description(project.full_path, "A new description for the project.")
-    print("Project Description updated!")
-    InfoContentManager.update_venv_prompt(project.full_path, Util.parse_name("Fitnix Version 2.0").upper())
-    print("Project Venv prompt updated!")
-    InfoContentManager.update_status(project.full_path, "COMPLETED")
-    print("Project Status updated!")
-    InfoContentManager.update_reservoir_path(project.full_path, "New/path/to/project/fitnix_v2")
-    print("Project Reservoir path updated!")
+    # Path.mkdir(project.full_path)
+    # InfoContentManager.create_info_data_file(project)
+    # print("Project info file created successfully!\n")
+    # print(f"Project path: {project.full_path}")
+    # InfoContentManager.update_name(project.full_path, "Fitnix Version 2.0")
+    # print("Project name updated!")
+    # print(f"Project initial ID: {project.p_uid}")
+    # InfoContentManager.update_id(project.full_path, Util.generate_project_uid(project.parsed_name))
+    # print("Project ID updated!")
+    # InfoContentManager.update_description(project.full_path, "A new description for the project.")
+    # print("Project Description updated!")
+    # InfoContentManager.update_venv_prompt(project.full_path, Util.parse_name("Fitnix Version 2.0").upper())
+    # print("Project Venv prompt updated!")
+    # InfoContentManager.update_status(project.full_path, "COMPLETED")
+    # print("Project Status updated!")
+    # InfoContentManager.update_reservoir_path(project.full_path, "New/path/to/project/fitnix_v2")
+    # print("Project Reservoir path updated!")
     
-    # pass
+    pass
   
 # end of program
