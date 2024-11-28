@@ -25,7 +25,7 @@ class Initializer():
     def initialize_project_C():
         with Initializer.terminalController.status():
             time.sleep(5) # 5 seconds delay
-            #TODO: Check if the Databases directory and the config.db file has been created and intitialized.
+            #TODO: Check if the Databases directory and the config.db file has been created and intitialized.          
             #TODO: Throw an error message to the user to let them know that project-C has already been initialized
             #TODO: If not found, create config.db and complete the remaining setup process
             pass
