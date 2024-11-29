@@ -53,6 +53,7 @@ class Util():
         return {key : value for key, value in zip(date_list, values_list)}
 
 
+
 if __name__ == "__main__":
     # print(Util.retrieve_datetime()["DAY_NUM"])
     # result = Util.parse_datetime('11/16/24;2024;November;Saturday;16;23:17:18')
@@ -61,5 +62,5 @@ if __name__ == "__main__":
     # print(Util.parse_name(name))
     # print(Util.generate_project_uid(name))
     pass
+
 # end of source code
-# %%
