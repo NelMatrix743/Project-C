@@ -19,6 +19,7 @@ def run_program(mainInterface: CliInterface):
     pass 
 
 
+
 if __name__ == "__main__":
 
     executionPoint: CliInterface = CliInterface()
