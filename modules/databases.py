@@ -17,7 +17,7 @@ from pathlib import Path
 class ConfigurationDatabase():
 
     # Note: Static class. Must not be initialized
-    config_database_path: Path = Path("../Databases/config.yaml")
+    config_database_path: Path = Path("../Databases/config.yaml").resolve()
     setup_date: dict[str, str] = Util.retrieve_datetime()
     project_c_version: str = "1.0.0"
     reservoir_path: str | None = None
@@ -37,7 +37,7 @@ class ConfigurationDatabase():
 
 
     def create_database() -> None:
-        with ConfigurationDatabase.config_database_path.open('x') as file:
+        with ConfigurationDatabase.config_database_path.open('w') as file:
             yaml.safe_dump(ConfigurationDatabase.CONFIG, file, default_flow_style=False, sort_keys=False)
 
 
@@ -155,7 +155,7 @@ class TemplateDatabase():
 class ProjectDatabase():
 
     # Note: Static class. Must not be initialized
-    project_database_path: Path = Path("../Databases/projects.db")
+    project_database_path: Path = Path("../Databases/projects.db").resolve()
 
     def create_database() -> None:
         db_conn: sql.Connection = sql.connect(ProjectDatabase.project_database_path)

@@ -26,7 +26,7 @@ class ProjectConfigurator():
         return PROJECT_C_CONFIG["Reservoir Path"]
 
 
-    # User projects releated configuration methods:
+    # User projects related configuration methods:
 
     # Next method starts from this particular line
 

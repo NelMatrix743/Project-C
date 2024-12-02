@@ -13,7 +13,7 @@ from pathlib import Path
 from datetime import datetime
 from rich.panel import Panel
 from rich.console import Console
-from databases import ConfigurationDatabase
+from databases import ConfigurationDatabase, ProjectDatabase
 
 
 class Initializer():
@@ -23,12 +23,28 @@ class Initializer():
     terminalController: Console = Console()
 
     def initialize_project_C():
-        with Initializer.terminalController.status():
+        with Initializer.terminalController.status("Initializing project-C..."):
             time.sleep(5) # 5 seconds delay
             #TODO: Check if the Databases directory and the config.db file has been created and intitialized.          
             #TODO: Throw an error message to the user to let them know that project-C has already been initialized
             #TODO: If not found, create config.db and complete the remaining setup process
-            pass
+            database_directory_path: Path = Path("../Databases").resolve()
+            projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
+            projects_database_path: Path = Path("../Databases/project").resolve()
+            time.sleep(2)
+            if not database_directory_path.exists():
+                database_directory_path.mkdir()
+                time.sleep(3)
+                Initializer.terminalController.print("Databases directory created!")
+            if not projectc_config_path.exists():
+                time.sleep(3)
+                ConfigurationDatabase.create_database()
+                Initializer.terminalController.print("Configuration file created!")
+            if not projects_database_path.exists():
+                time.sleep(3)
+                ProjectDatabase.create_database()
+                Initializer.terminalController.print("Project Databases created!")
+            
 
 
     def display_welcome_message() -> None:   
@@ -47,13 +63,15 @@ class Initializer():
             border_style = "bold yellow",
             padding = (0, 1)
         )
+        print() # Newline
         Initializer.terminalController.print(welcome_message_box)
-        print('\n' * 3)
+        print() # Newline
        
 
 
 if __name__ == "__main__":
 
     Initializer.display_welcome_message()
+    Initializer.initialize_project_C()
     
 # end of Iniializer()
