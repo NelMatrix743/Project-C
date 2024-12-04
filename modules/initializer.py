@@ -16,35 +16,55 @@ from rich.console import Console
 from databases import ConfigurationDatabase, ProjectDatabase
 
 
+terminalController: Console = Console()
+
+
 class Initializer():
 # Create Configuration database and its contents
 # Create Project database and its contents
 
-    terminalController: Console = Console()
 
     def initialize_project_C():
-        with Initializer.terminalController.status("Initializing project-C..."):
+        with terminalController.status("Initializing Project-C...", ):
             time.sleep(5) # 5 seconds delay
             #TODO: Check if the Databases directory and the config.db file has been created and intitialized.          
             #TODO: Throw an error message to the user to let them know that project-C has already been initialized
-            #TODO: If not found, create config.db and complete the remaining setup process
+            #TODO: If not found, create config.yaml and complete the remaining setup process
+            
+            RESERVOIR_PATH_MESSAGE: tuple[str, str, str] = (
+                "[yellow]For Project-C to create and manage the structure of your projects, ",
+                "it needs a directory/folder location to keep them. ",
+                "Where in your file system would you like Project-C to keep your projects?[/]"
+            )
+            RESERVOIR_PROMPT: str = "Enter your selected path: "
+            INVALID_RESERVOIR_PATH_MESSAGE: tuple[str, str, str] = (
+                "ERROR! The path you entered is invalid. ",
+                "For Project-C to proceed with initialization, it needs a valid path in your file system. ",
+                "Please enter a valid path."
+            ) 
             database_directory_path: Path = Path("../Databases").resolve()
             projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
-            projects_database_path: Path = Path("../Databases/project").resolve()
-            time.sleep(2)
+            projects_database_path: Path = Path("../Databases/projects.db").resolve()
             if not database_directory_path.exists():
                 database_directory_path.mkdir()
                 time.sleep(3)
-                Initializer.terminalController.print("Databases directory created!")
+                terminalController.print("Databases directory created!")
             if not projectc_config_path.exists():
                 time.sleep(3)
                 ConfigurationDatabase.create_database()
-                Initializer.terminalController.print("Configuration file created!")
+                terminalController.print("Configuration file created!")
             if not projects_database_path.exists():
                 time.sleep(3)
                 ProjectDatabase.create_database()
-                Initializer.terminalController.print("Project Databases created!")
+                terminalController.print("Project Databases created!")
+        terminalController.print(''.join(RESERVOIR_PATH_MESSAGE))
+        user_input_path: str = input(RESERVOIR_PROMPT)
+        if not Path(user_input_path).exists():
+            terminalController.print(''.join(INVALID_RESERVOIR_PATH_MESSAGE))
+        else:
+            terminalController.print("VALID PATH!")
             
+
 
 
     def display_welcome_message() -> None:   
@@ -64,14 +84,18 @@ class Initializer():
             padding = (0, 1)
         )
         print() # Newline
-        Initializer.terminalController.print(welcome_message_box)
+        terminalController.print(welcome_message_box)
         print() # Newline
        
 
 
 if __name__ == "__main__":
 
-    Initializer.display_welcome_message()
-    Initializer.initialize_project_C()
+    try:
+        Initializer.display_welcome_message()
+        Initializer.initialize_project_C()
+    except KeyboardInterrupt:
+        terminalController.print("Program exited!")
+    
     
 # end of Iniializer()
