@@ -51,6 +51,9 @@ class ConfigurationDatabase():
             yaml.safe_dump(changes, file, default_flow_style=False, sort_keys=False)
 
 
+    def update_reservoir_path(reservoir_path: str) -> None:
+        pass
+
 
 class InfoContentManager():
 
