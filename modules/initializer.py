@@ -41,7 +41,9 @@ class Initializer():
                 "ERROR! The path you entered is invalid. ",
                 "For Project-C to proceed with initialization, it needs a valid path in your file system. ",
                 "Please enter a valid path."
-            ) 
+            )
+            INVALID_RESERVOIR_PATH_MESSAGE_2: str = "Error! The path is invalid. Please enter a valid path."
+            ATTEMPT_EXCEEDED_MESSAGE: str = "Invalid path! Attempt exceeded. Run Project-C again."
             database_directory_path: Path = Path("../Databases").resolve()
             projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
             projects_database_path: Path = Path("../Databases/projects.db").resolve()
@@ -58,12 +60,22 @@ class Initializer():
                 ProjectDatabase.create_database()
                 terminalController.print("Project Databases created!")
         terminalController.print(''.join(RESERVOIR_PATH_MESSAGE))
-        user_input_path: str = input(RESERVOIR_PROMPT)
-        if not Path(user_input_path).exists():
-            terminalController.print(''.join(INVALID_RESERVOIR_PATH_MESSAGE))
-        else:
+        input_attempt_counter: int = 3
+        while input_attempt_counter:
+            user_input_path: str = input(RESERVOIR_PROMPT)                
+            if not Path(user_input_path).exists():
+                match input_attempt_counter:
+                    case 3:
+                        terminalController.print(''.join(INVALID_RESERVOIR_PATH_MESSAGE))
+                    case 2:
+                        terminalController.print(INVALID_RESERVOIR_PATH_MESSAGE_2)
+                    case 1:
+                        terminalController.print(ATTEMPT_EXCEEDED_MESSAGE)
+                input_attempt_counter -= 1
+                continue
             terminalController.print("VALID PATH!")
-            
+            break
+        
 
 
 
