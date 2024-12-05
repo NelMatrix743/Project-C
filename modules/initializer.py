@@ -79,11 +79,12 @@ class Initializer():
             with terminalController.status("Finalizing the initialization process ..."):
                 ConfigurationDatabase.update_reservoir_path(user_input_path)
                 time.sleep(3)
-            success_msg_display("---Initialization completed!---")
+            success_msg_display("---Initialization completed!---", turn_icon_off=True)
         else:
             info_msg_display(
                 ''.join(["Project-C has already been initialized. For more information on how to use Project-C, ",
-                         "run the following command:\npython project-c --help  or  python pc --help"])
+                         "run the following command:\n[italic]python project-c --help[/]  or  [italic]python pc --help[/]"]),
+                turn_icon_off=True
             )
         
 
