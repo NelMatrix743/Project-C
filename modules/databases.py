@@ -52,7 +52,12 @@ class ConfigurationDatabase():
 
 
     def update_reservoir_path(reservoir_path: str) -> None:
-        pass
+        CONFIG_PARAMETERS: dict[str, str] | None = None
+        with Path(ConfigurationDatabase.config_database_path).open('r') as info_content:
+            CONFIG_PARAMETERS = yaml.safe_load(info_content)
+            CONFIG_PARAMETERS["Reservoir Path"] = str(Path(reservoir_path) / "PROJECTS")
+        with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
+            yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
 
 
 class InfoContentManager():
