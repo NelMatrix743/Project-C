@@ -48,15 +48,15 @@ class Initializer():
             projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
             projects_database_path: Path = Path("../Databases/projects.db").resolve()
             if not database_directory_path.exists():
-                time.sleep(2)
+                time.sleep(1)
                 database_directory_path.mkdir()
                 INTIALIZATION_FLAG_COUNTER += 1
             if not projectc_config_path.exists():
-                time.sleep(2)
+                time.sleep(1)
                 ConfigurationDatabase.create_database()
                 INTIALIZATION_FLAG_COUNTER += 1
             if not projects_database_path.exists():
-                time.sleep(2)
+                time.sleep(1)
                 ProjectDatabase.create_database()
                 INTIALIZATION_FLAG_COUNTER += 1
         if INTIALIZATION_FLAG_COUNTER:
@@ -72,14 +72,19 @@ class Initializer():
                         case 2:
                             terminalController.print(INVALID_RESERVOIR_PATH_MESSAGE_2)
                         case 1:
-                            terminalController.print(ATTEMPT_EXCEEDED_MESSAGE)
+                            failure_msg_display(ATTEMPT_EXCEEDED_MESSAGE)
                     input_attempt_counter -= 1
                     continue
-                break # path is valid
-            with terminalController.status("Finalizing the initialization process ..."):
-                ConfigurationDatabase.update_reservoir_path(user_input_path)
-                time.sleep(3)
-            success_msg_display("---Initialization completed!---", turn_icon_off=True)
+                with terminalController.status("Finalizing the initialization process ..."):
+                    ConfigurationDatabase.update_reservoir_path(user_input_path)
+                    time.sleep(3)
+                success_msg_display(
+                    ''.join(["---Initialization completed!---\n", 
+                            "For more information on how to use Project-C, ",
+                            "run the following command:\n[italic]python project-c --help[/]  or  [italic]python pc --help[/]"]), 
+                    turn_icon_off=True
+                )
+                break
         else:
             info_msg_display(
                 ''.join(["Project-C has already been initialized. For more information on how to use Project-C, ",
