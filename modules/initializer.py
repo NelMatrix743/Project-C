@@ -25,12 +25,12 @@ class Initializer():
 
 
     def initialize_project_C():
-        with terminalController.status("Initializing Project-C...", ):
-            time.sleep(5) # 5 seconds delay
+        with terminalController.status("Initializing Project-C ...", ):
+            time.sleep(2)
             #TODO: Check if the Databases directory and the config.db file has been created and intitialized.          
             #TODO: Throw an error message to the user to let them know that project-C has already been initialized
             #TODO: If not found, create config.yaml and complete the remaining setup process
-            
+            INTIALIZATION_FLAG_COUNTER: int = 0
             RESERVOIR_PATH_MESSAGE: tuple[str, str, str] = (
                 "[yellow]For Project-C to create and manage the structure of your projects, ",
                 "it needs a directory/folder location to keep them. ",
@@ -43,38 +43,48 @@ class Initializer():
                 "Please enter a valid path."
             )
             INVALID_RESERVOIR_PATH_MESSAGE_2: str = "Error! The path is invalid. Please enter a valid path."
-            ATTEMPT_EXCEEDED_MESSAGE: str = "Invalid path! Attempt exceeded. Run Project-C again."
+            ATTEMPT_EXCEEDED_MESSAGE: str = "Invalid path! Attempt exceeded. Run Project-C initialization again."
             database_directory_path: Path = Path("../Databases").resolve()
             projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
             projects_database_path: Path = Path("../Databases/projects.db").resolve()
             if not database_directory_path.exists():
+                time.sleep(2)
                 database_directory_path.mkdir()
-                time.sleep(3)
-                terminalController.print("Databases directory created!")
+                INTIALIZATION_FLAG_COUNTER += 1
             if not projectc_config_path.exists():
-                time.sleep(3)
+                time.sleep(2)
                 ConfigurationDatabase.create_database()
-                terminalController.print("Configuration file created!")
+                INTIALIZATION_FLAG_COUNTER += 1
             if not projects_database_path.exists():
-                time.sleep(3)
+                time.sleep(2)
                 ProjectDatabase.create_database()
-                terminalController.print("Project Databases created!")
-        terminalController.print(''.join(RESERVOIR_PATH_MESSAGE))
-        input_attempt_counter: int = 3
-        while input_attempt_counter:
-            user_input_path: str = input(RESERVOIR_PROMPT)                
-            if not Path(user_input_path).exists():
-                match input_attempt_counter:
-                    case 3:
-                        terminalController.print(''.join(INVALID_RESERVOIR_PATH_MESSAGE))
-                    case 2:
-                        terminalController.print(INVALID_RESERVOIR_PATH_MESSAGE_2)
-                    case 1:
-                        terminalController.print(ATTEMPT_EXCEEDED_MESSAGE)
-                input_attempt_counter -= 1
-                continue
-            terminalController.print("VALID PATH!")
-            break
+                INTIALIZATION_FLAG_COUNTER += 1
+        if INTIALIZATION_FLAG_COUNTER:
+            terminalController.print(''.join(RESERVOIR_PATH_MESSAGE))
+            input_attempt_counter: int = 3
+            user_input_path: str | None = None
+            while input_attempt_counter:
+                user_input_path = input(RESERVOIR_PROMPT)                
+                if not Path(user_input_path).exists():
+                    match input_attempt_counter:
+                        case 3:
+                            terminalController.print(''.join(INVALID_RESERVOIR_PATH_MESSAGE))
+                        case 2:
+                            terminalController.print(INVALID_RESERVOIR_PATH_MESSAGE_2)
+                        case 1:
+                            terminalController.print(ATTEMPT_EXCEEDED_MESSAGE)
+                    input_attempt_counter -= 1
+                    continue
+                break # path is valid
+            with terminalController.status("Finalizing the initialization process ..."):
+                ConfigurationDatabase.update_reservoir_path(user_input_path)
+                time.sleep(3)
+            success_msg_display("---Initialization completed!---")
+        else:
+            info_msg_display(
+                ''.join(["Project-C has already been initialized. For more information on how to use Project-C, ",
+                         "run the following command:\npython project-c --help  or  python pc --help"])
+            )
         
 
 
