@@ -6,9 +6,9 @@
 ###############################################################################
 
 import yaml
-from utils import Util
+from .utils import Util
 import sqlite3 as sql
-from project import Project
+from .project import Project
 from datetime import datetime
 from pathlib import Path
 
@@ -59,6 +59,43 @@ class ConfigurationDatabase():
         with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
             yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
 
+
+    def update_user_name(user_name: str) -> None:
+        CONFIG_PARAMETERS: dict[str, str] | None = None
+        with Path(ConfigurationDatabase.config_database_path).open('r') as info_content:
+            CONFIG_PARAMETERS = yaml.safe_load(info_content)
+            CONFIG_PARAMETERS["User Name"] = user_name
+        with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
+            yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
+    
+    
+    def update_user_nickname(nick_name: str) -> None:
+        CONFIG_PARAMETERS: dict[str, str] | None = None
+        with Path(ConfigurationDatabase.config_database_path).open('r') as info_content:
+            CONFIG_PARAMETERS = yaml.safe_load(info_content)
+            CONFIG_PARAMETERS["Nick Name"] = nick_name
+        with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
+            yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
+    
+    
+    def update_github_name(github_name: str) -> None:
+        CONFIG_PARAMETERS: dict[str, str] | None = None
+        with Path(ConfigurationDatabase.config_database_path).open('r') as info_content:
+            CONFIG_PARAMETERS = yaml.safe_load(info_content)
+            CONFIG_PARAMETERS["GitHub Name"] = github_name
+        with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
+            yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
+    
+    
+    def update_github_url(url: str) -> None:
+        CONFIG_PARAMETERS: dict[str, str] | None = None
+        with Path(ConfigurationDatabase.config_database_path).open('r') as info_content:
+            CONFIG_PARAMETERS = yaml.safe_load(info_content)
+            CONFIG_PARAMETERS["GitHub URL"] = url
+        with Path(ConfigurationDatabase.config_database_path).open('w') as info_file:
+            yaml.safe_dump(CONFIG_PARAMETERS, info_file, default_flow_style=False, sort_keys=False)
+    
+    
 
 class InfoContentManager():
 

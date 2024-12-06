@@ -8,12 +8,12 @@ import os
 import string 
 import random 
 import time 
-from display import *
+from .display import *
 from pathlib import Path
 from datetime import datetime
 from rich.panel import Panel
 from rich.console import Console
-from databases import ConfigurationDatabase, ProjectDatabase
+from .databases import ConfigurationDatabase, ProjectDatabase
 
 
 terminalController: Console = Console()
@@ -27,9 +27,6 @@ class Initializer():
     def initialize_project_C():
         with terminalController.status("Initializing Project-C ...", ):
             time.sleep(2)
-            #TODO: Check if the Databases directory and the config.db file has been created and intitialized.          
-            #TODO: Throw an error message to the user to let them know that project-C has already been initialized
-            #TODO: If not found, create config.yaml and complete the remaining setup process
             INTIALIZATION_FLAG_COUNTER: int = 0
             RESERVOIR_PATH_MESSAGE: tuple[str, str, str] = (
                 "[yellow]For Project-C to create and manage the structure of your projects, ",
@@ -44,6 +41,10 @@ class Initializer():
             )
             INVALID_RESERVOIR_PATH_MESSAGE_2: str = "Error! The path is invalid. Please enter a valid path."
             ATTEMPT_EXCEEDED_MESSAGE: str = "Invalid path! Attempt exceeded. Run Project-C initialization again."
+            USER_NAME_PROMPT: str = "What is first your name?"
+            USER_NICK_NAME_PROMPT: str = "What is your nick name?"
+            GITHUB_NAME_PROMPT: str = "What is your github user name?"
+            GITHUB_URL_PROMPT: str = "What is your github url?"
             database_directory_path: Path = Path("../Databases").resolve()
             projectc_config_path: Path = Path("../Databases/config.yaml").resolve()
             projects_database_path: Path = Path("../Databases/projects.db").resolve()
@@ -75,6 +76,14 @@ class Initializer():
                             failure_msg_display(ATTEMPT_EXCEEDED_MESSAGE)
                     input_attempt_counter -= 1
                     continue
+                terminalController.print(USER_NAME_PROMPT)
+                ConfigurationDatabase.update_user_name(input("First name: "))
+                terminalController.print(USER_NICK_NAME_PROMPT)
+                ConfigurationDatabase.update_user_nickname(input("Nick name: "))
+                terminalController.print(GITHUB_NAME_PROMPT)
+                ConfigurationDatabase.update_github_name(input("GitHub user name: "))
+                terminalController.print(GITHUB_URL_PROMPT)
+                ConfigurationDatabase.update_github_url(input("GitHub URL: "))
                 with terminalController.status("Finalizing the initialization process ..."):
                     ConfigurationDatabase.update_reservoir_path(user_input_path)
                     time.sleep(3)
@@ -92,8 +101,6 @@ class Initializer():
                 turn_icon_off=True
             )
         
-
-
 
     def display_welcome_message() -> None:   
         welcome_message: str = str.join('', 
@@ -114,7 +121,7 @@ class Initializer():
         print() # Newline
         terminalController.print(welcome_message_box)
         print() # Newline
-       
+     
 
 
 if __name__ == "__main__":
