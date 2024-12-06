@@ -8,12 +8,12 @@ import os
 import string 
 import random 
 import time 
-from .display import *
+from display import *
 from pathlib import Path
 from datetime import datetime
 from rich.panel import Panel
 from rich.console import Console
-from .databases import ConfigurationDatabase, ProjectDatabase
+from databases import ConfigurationDatabase, ProjectDatabase
 
 
 terminalController: Console = Console()

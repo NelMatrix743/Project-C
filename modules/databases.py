@@ -6,9 +6,9 @@
 ###############################################################################
 
 import yaml
-from .utils import Util
+from utils import Util
 import sqlite3 as sql
-from .project import Project
+from project import Project
 from datetime import datetime
 from pathlib import Path
 
