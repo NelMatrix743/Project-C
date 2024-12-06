@@ -5,8 +5,8 @@
 # Programmer.GitHub.url = https://github.com/NelMatrix743                     #
 ###############################################################################
 
-from databases import ConfigurationDatabase
-from databases import ProjectDatabase
+from .databases import ConfigurationDatabase
+from .databases import ProjectDatabase
 from pathlib import Path
 import yaml
 

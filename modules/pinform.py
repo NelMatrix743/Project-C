@@ -5,7 +5,7 @@
 # Programmer.GitHub.url = https://github.com/NelMatrix743                     #
 ###############################################################################
 
-from databases import ProjectDatabase
+from .databases import ProjectDatabase
 
 
 class ProjectInformer():

@@ -8,8 +8,8 @@
 import os 
 import string 
 import random 
-from display import * 
-from utils import Util
+from .display import * 
+from .utils import Util
 from typing import Self
 
 

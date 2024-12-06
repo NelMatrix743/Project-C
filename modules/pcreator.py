@@ -11,9 +11,9 @@ import time
 import venv 
 import sqlite3 as  sql 
 from git import Repo 
-from display import * 
+from .display import * 
 from datetime import datetime 
-from databases import ProjectDatabase, TemplateDatabase
+from .databases import ProjectDatabase, TemplateDatabase
 
 
 class ProjectCreator(): 
