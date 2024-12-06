@@ -16,7 +16,7 @@ from modules.pterminate import ProjectTerminator
 
 
 def run_program(mainInterface: CliInterface):
-    pass 
+    print("Hello world! Project-C main module.")
 
 
 
