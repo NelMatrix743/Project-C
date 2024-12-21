@@ -16,14 +16,14 @@ from typing import Self
 class Project():
     
     def __init__(self, input_name: str, description: str | None = None):
-        self.raw_name: str = input_name
+        self.raw_name: str = input_name                                 # request the user to provide it
         self.parsed_name: str = Util.parse_name(input_name)
         self.p_uid: str = Util.generate_project_uid(self.parsed_name)
-        self.description: str | None = description
+        self.description: str | None = description                      # request the user to provide it
         self._creation_datetime: dict[str, str] | None = None        
         self.status: str | None = None
         self.full_path: str = None
-        self.venv_prompt: str | None = self.raw_name.upper()
+        self.venv_prompt: str | None = ".venv"
 
 
     @property
