@@ -12,10 +12,11 @@ import venv
 import sqlite3 as  sql
 from enum import Enum 
 from git import Repo 
-from display import * 
+from display import *
+from pathlib import Path 
 from datetime import datetime 
 from project import Project
-from databases import ProjectDatabase, TemplateDatabase
+from databases import ProjectDatabase, TemplateDatabase, InfoContentManager, ConfigurationDatabase
 
 
 class ProjectType(Enum):
@@ -35,6 +36,10 @@ class ProjectCreator():
     
     
     def create_project(project: Project, project_type: ProjectType):
+        ConfigurationDatabase.load_configuration()
+        project.full_path = Path(ConfigurationDatabase.CONFIG["Reservoir Path"]) / project.parsed_name
+        ProjectCreator.create_main_dir(project.full_path)
+        InfoContentManager.create_info_data_file(project) # .INFO
         match project_type:
             case ProjectType.LIGHTWEIGHT:
                 pass
@@ -43,5 +48,8 @@ class ProjectCreator():
             case _:
                 return
             
-
+    
+   
+    
+    
 # end of ProjectCreator()
