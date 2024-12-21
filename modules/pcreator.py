@@ -49,7 +49,48 @@ class ProjectCreator():
                 return
             
     
-   
+    def create_main_dir(dir_path: str) -> None:
+        Path.mkdir(dir_path)
+            
+
+    def create_gitignore_file(file_path: str) -> None: # .gitignore
+        pass
+    
+    
+    def create_venv(file_path: str) -> None: # .venv
+        pass
+    
+    
+    def create_requirement_file(file_path: str) -> None: # requirements.txt
+        pass
+    
+    
+    def create_readme_file(file_path: str) -> None: # README.md
+        pass
+    
+    
+    def create_setup_file(file_path: str) -> None: # setup.py
+        pass
+    
+    
+    def create_license_file(file_path: str) -> None: # LICENSE.md or LINCENSE.txt
+        pass
+
+
+    def create_main_file(file_path: str) -> None: # __main__.py
+        pass
+    
+
+    def create_init_file(file_path: str) -> None: # __init__.py
+        pass
+    
+    
+    def create_toml_file(file_path: str) -> None: # pyproject.toml
+        pass
+
+
+    def create_git_repo(repo_path: str) -> None: # .git
+        pass
     
     
 # end of ProjectCreator()
