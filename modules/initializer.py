@@ -85,7 +85,7 @@ class Initializer():
                 terminalController.print(GITHUB_URL_PROMPT)
                 ConfigurationDatabase.update_github_url(input("GitHub URL: "))
                 with terminalController.status("Finalizing the initialization process ..."):
-                    ConfigurationDatabase.update_reservoir_path(user_input_path)
+                    ConfigurationDatabase.update_reservoir_path(str(Path(user_input_path).resolve()))
                     time.sleep(3)
                 success_msg_display(
                     ''.join(["---Initialization completed!---\n", 
