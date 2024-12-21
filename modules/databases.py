@@ -15,7 +15,7 @@ from pathlib import Path
 
 
 class ConfigurationDatabase():
-
+    # The configuration database must be loaded before being used (load_configuration() must be invoked prior to accessing config data)
     # Note: Static class. Must not be initialized
     config_database_path: Path = Path("../Databases/config.yaml").resolve()
     setup_date: dict[str, str] = Util.retrieve_datetime()
@@ -41,9 +41,9 @@ class ConfigurationDatabase():
             yaml.safe_dump(ConfigurationDatabase.CONFIG, file, default_flow_style=False, sort_keys=False)
 
 
-    def load_configuration() -> dict[str, any]:
+    def load_configuration() -> None:
         with ConfigurationDatabase.config_database_path.open('r') as file:
-            return yaml.safe_load(file)
+             ConfigurationDatabase.CONFIG = yaml.safe_load(file)
 
 
     def save_configuration_changes(changes: dict[str, any]) -> None:
