@@ -23,7 +23,7 @@ class Project():
         self._creation_datetime: dict[str, str] | None = None        
         self.status: str | None = None
         self.full_path: str = None
-        self.venv_prompt: str | None = ".venv"
+        self.venv_prompt: str | None = self.raw_name.upper()
 
 
     @property
