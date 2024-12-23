@@ -55,7 +55,7 @@ class ProjectCreator():
 
     def create_gitignore_file(project_path: str) -> None: # .gitignore
         GITIGNORE_CONTENT: str = ".venv/\n.INFO"
-        with Path(Path(project_path)/".gitignore").open('w') as file:
+        with Path(project_path, ".gitignore").open('w') as file:
              file.write(GITIGNORE_CONTENT)
     
     
@@ -68,36 +68,35 @@ class ProjectCreator():
 
     
     def create_requirement_file(project_path: str) -> None: # requirements.txt
-        Path(Path(project_path)/"requirements.txt").touch()
+        Path(project_path, "requirements.txt").touch()
     
     
     def create_readme_file(project_path: str) -> None: # README.md
-        Path(Path(project_path)/"README.md").touch()
+        Path(project_path, "README.md").touch()
     
     
     def create_setup_file(project_path: str) -> None: # setup.py
-        Path(Path(project_path)/"setup.py").touch()
+        Path(project_path, "setup.py").touch()
     
     
     def create_license_file(project_path: str) -> None: # LICENSE.md or LINCENSE.txt
-        Path(Path(project_path)/"LICENSE").touch()
+        Path(project_path, "LICENSE").touch()
 
 
     def create_dunder_main_file(project_path: str) -> None: # __main__.py
-        Path(Path(project_path)/"__main__.py").touch()
+        Path(project_path, "__main__.py").touch()
     
 
     def create_main_file(project_path: str) -> None: # main.py
-        Path(Path(project_path)/"main.py").touch()
+        Path(project_path, "main.py").touch()
 
 
     def create_dunder_init_file(project_path: str) -> None: # __init__.py
-        Path(Path(project_path)/"__init__.py").touch()
+        Path(project_path, "__init__.py").touch()
     
     
     def create_toml_file(project_path: str) -> None: # pyproject.toml
-        Path(Path(project_path)/"pyproject.toml").touch()
-
+        Path(project_path, "pyproject.toml").touch()
     
     
 # end of ProjectCreator()
