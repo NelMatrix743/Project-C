@@ -39,14 +39,20 @@ class ProjectCreator():
         ConfigurationDatabase.load_configuration()
         project.full_path = Path(ConfigurationDatabase.CONFIG["Reservoir Path"]) / project.parsed_name
         ProjectCreator.create_main_dir(project.full_path)
+        # Common files and directories for both types of projects:
         InfoContentManager.create_info_data_file(project) # .INFO
+        ProjectCreator.create_gitignore_file(project.full_path)
+        ProjectCreator.create_readme_file(project.full_path)
+        ProjectCreator.create_requirement_file(project.full_path)
+        ProjectCreator.create_venv(project)
+        ProjectCreator.create_git_repo(project.full_path)
         match project_type:
             case ProjectType.LIGHTWEIGHT:
-                pass
+                ProjectCreator.create_main_file(project.full_path)
             case ProjectType.HEAVYWEIGHT:
                 pass
             case _:
-                return
+                return # Exit the method
             
     
     def create_main_dir(project_path: str) -> None:
