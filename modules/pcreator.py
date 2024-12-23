@@ -64,7 +64,7 @@ class ProjectCreator():
     
 
     def create_git_repo(project_path: str) -> None: # .git
-        pass
+        Repo.init(project_path)
 
     
     def create_requirement_file(project_path: str) -> None: # requirements.txt
