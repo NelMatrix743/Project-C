@@ -60,7 +60,7 @@ class ProjectCreator():
     
     
     def create_venv(project: Project) -> None: # .venv
-        pass
+        venv.create(str(Path(project.full_path, ".venv")), prompt=project.venv_prompt, with_pip=True)
     
 
     def create_git_repo(project_path: str) -> None: # .git
