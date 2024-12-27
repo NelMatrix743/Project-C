@@ -11,6 +11,7 @@ import random
 from display import * 
 from utils import Util
 from typing import Self
+from pathlib import Path
 
 
 class Project():
@@ -21,8 +22,8 @@ class Project():
         self.p_uid: str = Util.generate_project_uid(self.parsed_name)
         self.description: str | None = description                      # request the user to provide it
         self._creation_datetime: dict[str, str] | None = None        
-        self.status: str | None = None
-        self.full_path: str = None
+        self.status: str = "ONGOING"
+        self._full_path: str = None
         self.venv_prompt: str | None = self.raw_name.upper()
 
 
@@ -37,6 +38,16 @@ class Project():
     def creation_datetime(self, dict_datetime: dict[str, str]) -> None:
         self._creation_datetime = dict_datetime
 
+
+    @property
+    def full_path(self) -> str:
+        return self._full_path
+    
+    
+    @full_path.setter
+    def full_path(self, path: str) -> None:
+        self._full_path = str(Path(path, self.parsed_name))
+        
 
     def __str__(self) -> str:
         return f"""
