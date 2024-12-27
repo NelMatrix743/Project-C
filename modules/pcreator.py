@@ -31,7 +31,7 @@ class ProjectCreator():
 # Heavyweight (hw) - Complex, fully documented codebase structure with more files and directories such as setup.py, LICENSE.md, docs directory, etc.
     
     def create_project(project: Project, project_type: ProjectType):
-        ConfigurationDatabase.load_configuration()
+        #ConfigurationDatabase.load_configuration()
         project.full_path = r"/home/n3lm4tr1x/project_s/Python_Programs/projectc" #Path(ConfigurationDatabase.CONFIG["Reservoir Path"]) / project.parsed_name
         ProjectCreator.__create_main_dir(project.full_path)
         # Common files and directories for both types of projects:
@@ -56,11 +56,12 @@ class ProjectCreator():
             
     
     def __create_main_dir(project_path: str) -> None:
+        # Throws an error when the directory already exist
         Path.mkdir(project_path)
             
 
     def __create_gitignore_file(project_path: str) -> None: # .gitignore
-        GITIGNORE_CONTENT: str = ".venv/\n.INFO"
+        GITIGNORE_CONTENT: str = ".venv/\n.INFO\n"
         with Path(project_path, ".gitignore").open('w') as file:
              file.write(GITIGNORE_CONTENT)
     
@@ -112,5 +113,17 @@ class ProjectCreator():
     def __create_toml_file(project_path: str) -> None: # pyproject.toml
         Path(project_path, "pyproject.toml").touch()
     
+        
+    
+if __name__ == "__main__":
+
+    # Test
+    test_project: Project = Project("Hello World", description="A simple hello world program.")
+    match int(input("Project type: 0 or 1: ")):
+        case 0:
+            ProjectCreator.create_project(test_project, ProjectType.LIGHTWEIGHT)
+        case 1:
+            ProjectCreator.create_project(test_project, ProjectType.HEAVYWEIGHT)
+    print("Project created successfully!")
     
 # end of ProjectCreator()
