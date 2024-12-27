@@ -29,11 +29,6 @@ class ProjectCreator():
 # Create two types of project codebases:
 # Lightweight (lw) - Simple codebase structure with base files and directories like requirements.txt, README.md, test directory, etc.
 # Heavyweight (hw) - Complex, fully documented codebase structure with more files and directories such as setup.py, LICENSE.md, docs directory, etc.
- 
-    def __init__(self):
-        # work on this
-        pass
-    
     
     def create_project(project: Project, project_type: ProjectType):
         ConfigurationDatabase.load_configuration()
@@ -50,7 +45,12 @@ class ProjectCreator():
             case ProjectType.LIGHTWEIGHT:
                 ProjectCreator.create_main_file(project.full_path)
             case ProjectType.HEAVYWEIGHT:
-                pass
+                ProjectCreator.create_dunder_main_file(project.full_path)
+                ProjectCreator.create_setup_file(project.full_path)
+                ProjectCreator.create_license_file(project.full_path)
+                ProjectCreator.create_toml_file(project.full_path)
+                ProjectCreator.create_modules_dir(project.full_path)
+                ProjectCreator.create_dunder_init_file(str(Path(project.full_path, "modules")))
             case _:
                 return # Exit the method
             
@@ -72,6 +72,14 @@ class ProjectCreator():
     def create_git_repo(project_path: str) -> None: # .git
         Repo.init(project_path)
 
+ 
+    def create_modules_dir(project_path: str) -> None:
+        Path(project_path, "modules").mkdir()
+        
+        
+    def create_test_dir(project_path: str) -> None:
+        Path(project_path, "test").mkdir()
+ 
     
     def create_requirement_file(project_path: str) -> None: # requirements.txt
         Path(project_path, "requirements.txt").touch()
