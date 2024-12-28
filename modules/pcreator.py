@@ -9,6 +9,7 @@ import string
 import random 
 import time 
 import venv 
+import pyperclip
 import sqlite3 as  sql
 from enum import Enum 
 from git import Repo 
@@ -31,8 +32,8 @@ class ProjectCreator():
 # Heavyweight (hw) - Complex, fully documented codebase structure with more files and directories such as setup.py, LICENSE.md, docs directory, etc.
     
     def create_project(project: Project, project_type: ProjectType):
-        #ConfigurationDatabase.load_configuration()
-        project.full_path = r"/home/n3lm4tr1x/project_s/Python_Programs/projectc" #Path(ConfigurationDatabase.CONFIG["Reservoir Path"]) / project.parsed_name
+        ConfigurationDatabase.load_configuration()
+        project.full_path = Path(ConfigurationDatabase.CONFIG["Reservoir Path"]) / project.parsed_name
         ProjectCreator.__create_main_dir(project.full_path)
         # Common files and directories for both types of projects:
         InfoContentManager.create_info_data_file(project) # .INFO
@@ -53,6 +54,7 @@ class ProjectCreator():
                 ProjectCreator.__create_dunder_init_file(str(Path(project.full_path, "modules")))
             case _:
                 return # Exit the method
+        pyperclip.copy(f"\"{project.full_path}\"") # Automatically copies the project path to clipboard
             
     
     def __create_main_dir(project_path: str) -> None:
