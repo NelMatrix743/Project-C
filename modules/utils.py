@@ -7,12 +7,20 @@
 
 import string
 import random
+from enum import Enum
 from datetime import datetime
 
 # This module contains general utilities like name parsing functions, id creation functions, etc...
 
 # Characters used in forming a project ID
 VALID_HEX_ID_CHARACTERS: str = "abcde" + string.digits
+
+
+class ProjectType(Enum):
+    
+    LIGHTWEIGHT: str  = "lightweight"
+    HEAVYWEIGHT: str  = "heavyweight"
+
 
 
 class Util():

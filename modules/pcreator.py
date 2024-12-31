@@ -15,14 +15,10 @@ from enum import Enum
 from git import Repo 
 from display import *
 from pathlib import Path 
-from datetime import datetime 
 from project import Project
+from utils import ProjectType
+from datetime import datetime 
 from databases import ProjectDatabase, TemplateDatabase, InfoContentManager, ConfigurationDatabase
-
-
-class ProjectType(Enum):
-    LIGHTWEIGHT: str  = "lightweight"
-    HEAVYWEIGHT: str  = "heavyweight"
 
 
 
