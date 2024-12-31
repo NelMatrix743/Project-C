@@ -6,12 +6,17 @@
 ###############################################################################
 
 import argparse 
+from typing import Self
+
+class CliInterface(argparse.ArgumentParser):
+    
+    def __init__(Self, *args, **kwargs) -> Self:
+        super().__init__(*args, **kwargs)
+        
+        # Add commands and subcommands below
+        
 
 
-class CliInterface():
-    pass
-
-# end of CliInterface()
 
 
 
