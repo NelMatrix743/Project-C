@@ -23,6 +23,14 @@ class ProjectType(Enum):
 
 
 
+class ProjectStatus(Enum):
+    
+    ONGOING: str = "ONGOING"
+    COMPLETED: str = "COMPLETED"
+    DELETED: str = "DELETED"
+
+
+
 class Util():
 
     # Note: Static class. Must not be initialized.
