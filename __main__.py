@@ -6,7 +6,7 @@
 ###############################################################################
 
 import argparse
-from modules.cli import CliInterface
+from modules.cli import cli_interface
 # from modules.initializer import Initializer
 # from modules.project import Project
 # from modules.pcreator import ProjectCreator
@@ -15,17 +15,14 @@ from modules.cli import CliInterface
 # from modules.pterminate import ProjectTerminator
 
 
-def run_program(mainInterface: CliInterface):
+def start_program(main_interface: argparse.ArgumentParser):
     print("Hello world! Project-C main module.")
-    arguments: argparse.Namespace = mainInterface.parse_args()
+    arguments: argparse.Namespace = main_interface.parse_args()
 
 
 
 if __name__ == "__main__":
 
-    executionPoint: CliInterface = CliInterface(
-        description="Project-C main interface."
-    )
-    run_program(executionPoint)
+    start_program(cli_interface)
 
 # end of program
