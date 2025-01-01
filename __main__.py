@@ -16,13 +16,13 @@ from modules.cli import cli_interface
 
 
 def start_program(main_interface: argparse.ArgumentParser):
-    print("Hello world! Project-C main module.")
     arguments: argparse.Namespace = main_interface.parse_args()
 
 
 
 if __name__ == "__main__":
 
+    # main execution point
     start_program(cli_interface)
 
 # end of program
