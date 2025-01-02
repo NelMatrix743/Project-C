@@ -46,8 +46,9 @@ class ProjectCreator():
                 ProjectCreator.__create_setup_file(project.full_path)
                 ProjectCreator.__create_license_file(project.full_path)
                 ProjectCreator.__create_toml_file(project.full_path)
-                ProjectCreator.__create_modules_dir(project.full_path)
-                ProjectCreator.__create_dunder_init_file(str(Path(project.full_path, "modules")))
+                ProjectCreator.__create_source_dir(project.full_path)
+                ProjectCreator.__create_test_dir(project.full_path)
+                ProjectCreator.__create_dunder_init_file(str(Path(project.full_path, "src")))
             case _:
                 return # Exit the method
         pyperclip.copy(f"\"{project.full_path}\"") # Automatically copies the project path to clipboard
@@ -72,8 +73,8 @@ class ProjectCreator():
         Repo.init(project_path)
 
  
-    def __create_modules_dir(project_path: str) -> None:
-        Path(project_path, "modules").mkdir()
+    def __create_source_dir(project_path: str) -> None:
+        Path(project_path, "src").mkdir()
         
         
     def __create_test_dir(project_path: str) -> None:
