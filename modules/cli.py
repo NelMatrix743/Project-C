@@ -23,7 +23,7 @@ HELP_MESSAGE: str = {
 }
 
 USAGE_MESSAGE: str = {
-    "cli_interface_usage" : "[projectc | pc] [subcommand] [arguments] [parameters]"
+    "cli_interface_usage" : "[projectc | pc] [subcommand] [argument(s)] [parameter(s)]"
 }
 
 # main command parser
@@ -41,24 +41,24 @@ sub_parsers: argparse._SubParsersAction = cli_interface.add_subparsers(
 )
 
 # subcommands
-init_parser: ArgumentParser = sub_parsers.add_parser("init", help=HELP_MESSAGE["init_help"])
-create_parser: ArgumentParser = sub_parsers.add_parser("create", help=HELP_MESSAGE["create_help"])
-config_parser: ArgumentParser = sub_parsers.add_parser("config", help=HELP_MESSAGE["config_help"])
-info_parser: ArgumentParser = sub_parsers.add_parser("info", help=HELP_MESSAGE["info_help"])
-delete_parser: ArgumentParser = sub_parsers.add_parser("delete", help=HELP_MESSAGE["delete_help"])
+init_parser: ArgumentParser = sub_parsers.add_parser("init", help=HELP_MESSAGE["init_help"], usage="[projectc | pc] init")
+create_parser: ArgumentParser = sub_parsers.add_parser("create", help=HELP_MESSAGE["create_help"], usage="[projectc | pc] create [argument(s)] [parameter(s)]")
+config_parser: ArgumentParser = sub_parsers.add_parser("config", help=HELP_MESSAGE["config_help"], usage="[projectc | pc] config [argument(s)] [parameter(s)]")
+info_parser: ArgumentParser = sub_parsers.add_parser("info", help=HELP_MESSAGE["info_help"], usage="[projectc | pc] info [argument(s)] [parameter(s)]")
+delete_parser: ArgumentParser = sub_parsers.add_parser("delete", help=HELP_MESSAGE["delete_help"], usage="[projectc | pc] delete [argument(s)] [parameter(s)]")
 
 # Defining arguments for the necessary subcommands
 
 # CREATE
 csb_option_groups: argparse._ArgumentGroup = create_parser.add_argument_group("Project Type")
 ptype_options: argparse._MutuallyExclusiveGroup = csb_option_groups.add_mutually_exclusive_group(required=True)
-ptype_options.add_argument("-lw", "--lightweight", action="store_true")
-ptype_options.add_argument("-hw", "--heavyweight", action="store_true")
+ptype_options.add_argument("-lw", "--lightweight", action="store_true", help="Lite/Simple project stucture.")
+ptype_options.add_argument("-hw", "--heavyweight", action="store_true", help="Fully documented and defined project structure.")
 p_info: argparse._ArgumentGroup = create_parser.add_argument_group("Project Name and Description")
 p_info.add_argument("-n", "--name")
 p_info.add_argument("-d", "--description")
 
-
+# CONFIG
 
 
 
@@ -66,7 +66,6 @@ if __name__ == "__main__":
     
     # Write your test code here.
     namespace: Namespace = cli_interface.parse_args()
-    print(f"The project name is: {namespace.name}")
 
 
 # end of source code
