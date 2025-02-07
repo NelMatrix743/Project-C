@@ -19,7 +19,8 @@ HELP_MESSAGE: str = {
     "info_help" :  "Provide information about project(s).",
     "delete_help" : "Delete a project or group of projects.",
     "lightweight" : "Create a lite project with minimal files and resources.",
-    "heavyweight" : "Create a fully documented project with all necessary files (LICENSE, PYPROJECT.TOML, ETC)." 
+    "heavyweight" : "Create a fully documented project with all necessary files (LICENSE, PYPROJECT.TOML, ETC).",
+    "target"      : "The ID of the project to apply the configuration to. The project must exist." 
 }
 
 USAGE_MESSAGE: str = {
@@ -52,13 +53,22 @@ delete_parser: ArgumentParser = sub_parsers.add_parser("delete", help=HELP_MESSA
 # CREATE
 csb_option_groups: argparse._ArgumentGroup = create_parser.add_argument_group("Project Type")
 ptype_options: argparse._MutuallyExclusiveGroup = csb_option_groups.add_mutually_exclusive_group(required=True)
-ptype_options.add_argument("-lw", "--lightweight", action="store_true", help="Lite/Simple project stucture.")
-ptype_options.add_argument("-hw", "--heavyweight", action="store_true", help="Fully documented and defined project structure.")
+ptype_options.add_argument("-lw", "--lightweight", action="store_true", help=HELP_MESSAGE["lightweight"])
+ptype_options.add_argument("-hw", "--heavyweight", action="store_true", help=HELP_MESSAGE["heavyweight"])
 p_info: argparse._ArgumentGroup = create_parser.add_argument_group("Project Name and Description")
 p_info.add_argument("-n", "--name")
 p_info.add_argument("-d", "--description")
 
 # CONFIG
+cfg_option_group: argparse._ArgumentGroup = config_parser.add_argument_group("Target Project")
+cfg_option_group.add_argument("-t", "--target", help=HELP_MESSAGE["target"])
+config_option_group: argparse._ArgumentGroup = config_parser.add_argument_group("Configuration Options")
+config_options: argparse._MutuallyExclusiveGroup = config_option_group.add_mutually_exclusive_group(required=True)
+config_options.add_argument("-rp", "--reservoipath")
+config_options.add_argument("-nn", "--neoname")
+config_options.add_argument("-nd", "--neodescription")
+config_options.add_argument("-nid", "--neoid", action="store_true")
+config_options.add_argument("-ns", "--neostatus") # implementation not yet completed
 
 
 
