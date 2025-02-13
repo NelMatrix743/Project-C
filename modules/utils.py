@@ -31,6 +31,12 @@ class ProjectStatus(Enum):
 
 
 
+class TerminationType(Enum):
+    PARTIAL_TERMINATION: str = "Partial Termination"
+    TOTAL_TERMINATION: str = "Total Termination"
+
+
+
 class Util():
 
     # Note: Static class. Must not be initialized.
