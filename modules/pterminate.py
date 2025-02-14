@@ -8,6 +8,7 @@
 from databases import ProjectDatabase
 from utils import TerminationType
 from project import Project
+import shutil
 
 
 class ProjectTerminator():
@@ -26,17 +27,17 @@ class ProjectTerminator():
         if input_project != None:
             # Proceed with the complete delete operation
             ProjectTerminator.delete_project_dir(input_project.full_path)
-            ProjectTerminator.delete_project_database_entry(project_id)
+            ProjectDatabase.delete_project_data(project_id)
             return True
         return False
 
 
     def delete_project_dir(path: str) -> bool:
-        pass 
-    
-    
-    def delete_project_database_entry(project_id: str) -> bool:
-        pass
+        try: 
+            shutil.rmtree(path)
+            return True      
+        except FileNotFoundError:
+            return False
     
 
 # end of source code
