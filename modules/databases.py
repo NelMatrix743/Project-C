@@ -13,18 +13,17 @@ from datetime import datetime
 from pathlib import Path
 
 
-
 class ConfigurationDatabase():
     # The configuration database must be loaded before being used (load_configuration() must be invoked prior to accessing config data)
     # Note: Static class. Must not be initialized
     config_database_path: Path = Path("../Databases/config.yaml").resolve()
     setup_date: dict[str, str] = Util.retrieve_datetime()
     project_c_version: str = "1.0.0"
-    reservoir_path: str | None = None
-    user_name: str | None = None #"Newton"
-    nick_name: str | None = None #"NewGravity"
-    github_account_name: str | None = None #"Newvento"
-    github_url: str | None = None #"https://github.com/Newvento"
+    reservoir_path: str | None = "./"
+    user_name: str | None = "Newton"
+    nick_name: str | None = "NewGravity"
+    github_account_name: str | None = "Newvento"
+    github_url: str | None = "https://github.com/Newvento"
     CONFIG: dict[str, any] = {
         "Setup Date" : f"{setup_date['YEAR']}-{setup_date['MONTH']}-{setup_date['DAY']}_{setup_date['DAY_NUM']}-[{setup_date['TIME']}]",
         "Version" : project_c_version,
@@ -272,7 +271,7 @@ class ProjectDatabase():
                 return_project = Project(result[1], description=result[2])
                 return_project.p_uid = result[0]
                 return_project.creation_datetime = Util.parse_datetime(result[3])
-                return_project.full_path = result[4]
+                return_project._full_path = result[4]
                 return_project.venv_prompt = result[5]
                 return_project.status = result[6]
             return return_project
@@ -405,6 +404,20 @@ class ProjectDatabase():
                 raise ProjectEntryDoesNotExistException(DELETE_ERROR_MESSAGE)
         
 
+    def project_exists(project_id: str) -> bool:
+        if not ProjectDatabase.project_database_path.exists():
+            raise ProjectDatabaseNonExistentException
+        with sql.connect(ProjectDatabase.project_database_path) as db_conn:
+            db_cursor: sql.Cursor = db_conn.cursor()
+            db_cursor.execute("""
+                SELECT * FROM projects_table WHERE project_id = ?;
+            """, (project_id,))
+            result: tuple[str] | None = db_cursor.fetchone()
+            if result: # not None
+                return True # project exists
+            return False
+    
+    
 
 class ProjectDatabaseNonExistentException(Exception):
     """
@@ -424,23 +437,19 @@ class ProjectEntryDoesNotExistException(Exception):
 
 if __name__ == "__main__":
     
-    # path: Path = Path("../Databases").resolve()
-    # if not path.exists():
-    #    path.mkdir()   # Implement this specific line in the initializer.py module
-    # # #ConfigurationDatabase.create_database()
-    # # #print(TemplateDatabase.TEMPLATE["HEADER"])
-    # # # test_project: Project = Project(
-    # # #     "Pygame",
-    # # #     "Python library for building games in Python."
-    # # # )
-    # # #print(TemplateDatabase.get_info_data(test_project))
-    # ProjectDatabase.create_database()
-    # project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    # project.full_path = str(Path(f"../{project.parsed_name}").resolve())
-    # project.status = "ONGOING"
-    # ProjectDatabase.insert_project_data(project)
-    # print("New project entry added successfully!\n")
-    # print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
+    path: Path = Path("../Databases").resolve()
+    if not path.exists():
+       path.mkdir()   # Implement this specific line in the initializer.py module
+    ConfigurationDatabase.create_database()
+    ProjectDatabase.create_database()
+    project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    project.full_path = ConfigurationDatabase.CONFIG["Reservoir Path"]
+    project.status = "ONGOING"
+    Path.mkdir(project.full_path)
+    ProjectDatabase.insert_project_data(project)
+    print("New project entry added successfully!\n")
+    print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
+    
     # new_id: str = Util.generate_project_uid(project.parsed_name)
     # try:
     #     ProjectDatabase.update_project_id_data(project.p_uid, new_id)
