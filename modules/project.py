@@ -17,10 +17,10 @@ from pathlib import Path
 class Project():
     
     def __init__(self, input_name: str, description: str | None = None):
-        self.raw_name: str = input_name                                 # request the user to provide it
+        self.raw_name: str = input_name             # request the user to provide it
         self.parsed_name: str = Util.parse_name(input_name)
         self.p_uid: str = Util.generate_project_uid(self.parsed_name)
-        self.description: str | None = description                      # request the user to provide it
+        self.description: str | None = description  # request the user to provide it
         self._creation_datetime: dict[str, str] | None = None        
         self.status: str = "ONGOING"
         self._full_path: str = None
@@ -46,7 +46,7 @@ class Project():
     
     @full_path.setter
     def full_path(self, path: str) -> None:
-        self._full_path = str(Path(path, self.parsed_name))
+        self._full_path = str(Path(path, self.parsed_name).resolve())
         
 
     def __str__(self) -> str:
