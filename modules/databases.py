@@ -437,18 +437,18 @@ class ProjectEntryDoesNotExistException(Exception):
 
 if __name__ == "__main__":
     
-    path: Path = Path("../Databases").resolve()
-    if not path.exists():
-       path.mkdir()   # Implement this specific line in the initializer.py module
-    ConfigurationDatabase.create_database()
-    ProjectDatabase.create_database()
-    project: Project = Project("Fitnix", "A simple fitness mobile app.")
-    project.full_path = ConfigurationDatabase.CONFIG["Reservoir Path"]
-    project.status = "ONGOING"
-    Path.mkdir(project.full_path)
-    ProjectDatabase.insert_project_data(project)
-    print("New project entry added successfully!\n")
-    print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
+    # path: Path = Path("../Databases").resolve()
+    # if not path.exists():
+    #    path.mkdir()   # Implement this specific line in the initializer.py module
+    # ConfigurationDatabase.create_database()
+    # ProjectDatabase.create_database()
+    # project: Project = Project("Fitnix", "A simple fitness mobile app.")
+    # project.full_path = ConfigurationDatabase.CONFIG["Reservoir Path"]
+    # project.status = "ONGOING"
+    # Path.mkdir(project.full_path)
+    # ProjectDatabase.insert_project_data(project)
+    # print("New project entry added successfully!\n")
+    # print(f"Project Entry: {ProjectDatabase.retrieve_project_data(project.p_uid)}\n")
     
     # new_id: str = Util.generate_project_uid(project.parsed_name)
     # try:
