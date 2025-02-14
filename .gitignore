@@ -1,2 +1,4 @@
 modules/project_exits.txt
+modules/__pycache__/
+__pycache__/
 .venv/*
